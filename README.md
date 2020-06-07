@@ -1,1 +1,1 @@
-# Graphin-Conics (With JS)
+# Graphin Conics (With JavaScript)
