@@ -34,7 +34,7 @@ function decToFrac(value, donly = true) {
     b = 1 / (b - a);
   } while (Math.abs(value - h1 / k1) > value * tolerance);
 
-  return (negative ? "-" : '') + ((donly & (i != 0)) ? i + ' ' : '') + (h1 == 0 ? '' : h1 + "/" + k1);
+  return (negative ? "-" : '') + ((donly & (i != 0)) ? i + ' ' : '') + (h1 == 0 ? '' : `\\frac{${h1}}{${k1}}`);
 }
 
 function determination(a, b, c, d, e, f) {
@@ -245,11 +245,10 @@ function auxPrintEquation(coef, add, string) {
 
 function printEquation(a, b, c, d, e, f) {
     var string = ""
-    var temp = ""
 
-    string = auxPrintEquation(a, "X² ", string)
+    string = auxPrintEquation(a, "X^2 ", string)
     string = auxPrintEquation(b, "XY ", string)
-    string = auxPrintEquation(c, "Y² ", string)
+    string = auxPrintEquation(c, "Y^2 ", string)
     string = auxPrintEquation(d, "X ", string)
     string = auxPrintEquation(e, "Y ", string)
     string = auxPrintEquation(f, " ", string)
@@ -271,8 +270,11 @@ function graph() {
 
     determination(a,b,c,d,e,f)
     
-    document.getElementById("equation").innerText = printEquation(a,b,c,d,e,f)
-    
+    let equation = printEquation(a,b,c,d,e,f)    
+    katex.render(equation, document.getElementById("equation", {
+        trowOnError: false
+    }))
+
     var a2 = a
     var b2 = b
     var c2 = c
@@ -297,8 +299,24 @@ function graph() {
             
             var temp1 = decToFrac(h, false)
             var temp2 = decToFrac(k, false)            
-            document.getElementById("anshk").innerText = `The new coordenate system have (${temp1}, ${temp2}) as his origen coordernates at the old system` 
-            document.getElementById("neweq").innerText = printEquation(a2,b2,c2,d2,e2,f2)
+            document.getElementById("anshk").innerHTML = `
+                The new coordenate system has 
+                (<span id="coordenada1"></span>, 
+                <span id="coordenada2"></span>)
+                as his origen coordernates at the old system ` 
+            katex.render(temp1, document.getElementById("coordenada1"), {
+                trowOnError: false
+            })
+            katex.render(temp2, document.getElementById("coordenada2"), {
+                trowOnError: false
+            })
+                   
+            let neweq = printEquation(a2,b2,c2,d2,e2,f2)    
+            katex.render(neweq, document.getElementById("neweq", {
+                trowOnError: false
+            }))
+
+
         }
     }
     else document.getElementById("anshk").innerText = "Translation unnecessary"
@@ -319,7 +337,12 @@ function graph() {
             d2 = d*cos1 + e*sin1
             e2 = (-d)*sin1 + e*cos1
         }
-        document.getElementById("neweq2").innerText = printEquation(a2,b2,c2,d2,e2,f2)    
+
+        let neweq2 = printEquation(a2,b2,c2,d2,e2,f2)    
+        katex.render(neweq2, document.getElementById("neweq2", {
+            trowOnError: false
+        }))
+
         document.getElementById("anstetas").innerText =  `We have for rotation : first angle ${teta1.toFixed(2)}`
     }
     else document.getElementById("anstetas").innerText = "Rotation unnecessary"
