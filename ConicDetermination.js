@@ -37,7 +37,7 @@ function decToFrac(value, donly = true) {
   return (negative ? "-" : '') + ((donly & (i != 0)) ? i + ' ' : '') + (h1 == 0 ? '' : h1 + "/" + k1);
 }
 
-function determination(a,b,c,d,e,f) {
+function determination(a, b, c, d, e, f) {
     var Det = (a*c*f) - (((d**2)*c + (b**2)*f + (e**2)*a - b*e*d))/4
     
     console.log(a,b,c,d,e,f, typeof Det)
@@ -113,7 +113,7 @@ function determination(a,b,c,d,e,f) {
     }
 }
 
-function findElements(type, a,b,c,d,e,f) {
+function findElements(type, a, b, c, d, e, f) {
     var f1, f2
     var exc 
     var v1, v2
@@ -190,63 +190,32 @@ function findElements(type, a,b,c,d,e,f) {
     }
 }
 
-function printEquation(a,b,c,d,e,f) {
+function auxPrintEquation(coef, add, string) {
+    var temp = ""
+
+    if (coef > 0) {
+        temp = decToFrac(coef, false)
+        if (string) string += "+ "
+        string += `${temp}${add}`    
+    }
+    else if (coef < 0) {
+        temp = decToFrac(-coef, false)
+        string += `- ${temp}${add}`    
+    }
+
+    return string
+}
+
+function printEquation(a, b, c, d, e, f) {
     var string = ""
     var temp = ""
 
-    if (a > 0) {
-        temp = decToFrac(a, false)
-        string += `${temp}X² `
-    }
-    else if (a < 0) {
-        temp = decToFrac(-a, false)
-        string += `- ${temp}X² `
-    }
-
-    if (b > 0) {
-        temp = decToFrac(b, false)
-        string += `+ ${temp}XY `
-    }
-    else if (b < 0) {
-        temp = decToFrac(-b, false)
-        string += `- ${temp}XY `
-    }
-
-    if (c > 0) {
-        temp = decToFrac(c, false)
-        string += `+ ${temp}Y² `
-    }
-    else if (c < 0) {
-        temp = decToFrac(-c, false)
-        string += `- ${temp}Y² `
-    }
-
-    if (d > 0) {
-        temp = decToFrac(d, false)
-        string += `+ ${temp}X `
-    }
-    else if (d < 0) {
-        temp = decToFrac(-d, false)
-        string += `- ${temp}X `
-    }
-    
-    if (e > 0) {
-        temp = decToFrac(e, false)
-        string += `+ ${temp}Y `
-    }
-    else if (e < 0) {
-        temp = decToFrac(-e, false)
-        string += `- ${temp}Y `
-    }
-
-    if (f > 0) {
-        temp = decToFrac(f, false)
-        string += `+ ${temp} `
-    }
-    else if (f < 0) {
-        temp = decToFrac(-f, false)
-        string += `- ${temp} `
-    }
+    string = auxPrintEquation(a, "X² ", string)
+    string = auxPrintEquation(b, "XY ", string)
+    string = auxPrintEquation(c, "Y² ", string)
+    string = auxPrintEquation(d, "X ", string)
+    string = auxPrintEquation(e, "Y ", string)
+    string = auxPrintEquation(f, " ", string)
 
     if (string) string += " = 0 "
     else string = "Not an equation..."
