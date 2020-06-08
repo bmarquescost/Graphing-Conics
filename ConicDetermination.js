@@ -1,20 +1,28 @@
- 
- // Determine the type of the conic given her coefficientes AX² + BXY + CY² + DX + EY + F = 0
-var type
-/*  
-        0 --> Empty
-        1 --> Point  
-        2 --> Two Identical Lines
-        3 --> Pair of parallel lines (non identical)
-        4 --> Pair of intersecting lines
-        5 --> Ellipse
-        6 --> Hyperbola
-        7 --> Parabola
-        8 --> Cirfunferemce
-*/
+function simplestForm(up, down) {
+    // Integer case
+    if (!(up % down)) retunr up / down
 
-function graph(){
+    // Decimal case, implefying the fraction  
+    var temp = down
+    for (int d = 2; temp > 1; d++) {
 
+        if (temp % d) continue
+
+        while (!(temp % d)) {
+            temp /= d
+            
+            if (!(up % d)) {
+                up \= d
+                down \= d
+            }
+        }
+    }
+
+    var fraction = {'u': up, 'd': down}
+    return fraction    
+}
+
+function graph() {
     // Getting all coefficients 
     var a = eval(document.getElementById("a").value) || 0
     var b = eval(document.getElementById("b").value) || 0
@@ -38,11 +46,11 @@ function graph(){
     const det = a*c - (b/2)**2
     var flag_first_det = det
     
-    if(d != 0 || e != 0){
+    if(d != 0 || e != 0) {
         if (!flag_first_det) {
             document.getElementById("notdet").innerText = "It was not possible to make a translation of the coordenate system"
         }
-        else{
+        else {
             h = ((-d/2)*c - (-e/2)*(b/2))/det
             k = ((a)*(-e/2) - (b/2)*(-d/2))/det
             d2 = 0
@@ -51,52 +59,36 @@ function graph(){
             
             document.getElementById("anshk").innerText =  `The new coordenate system have (${h},${k}) as his origen coordernates at the old system` 
             document.getElementById("neweq").innerText = print_equation(a2,b2,c2,d2,e2,f2)
-            
         }
     }
     else document.getElementById("anshk").innerText = "Translation unnecessary"
     
     if(b2 != 0) {
-        
         var tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
         
-        
-        
         var teta1 = (Math.atan(tanteta1))*(180/Math.PI)
-       
-        
-       
         var teta1rad = Math.atan(tanteta1)
-        
-        
-        
+
         a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
         b2 = 0
         c2 = a + c - a2
-        
        
         var cos1 = Math.sqrt(1/(tanteta1**2 + 1))
         var sin1 = Math.sqrt(1 - (cos1)**2)
-        
        
         if (!flag_first_det) {
             d2 = d*cos1 + e*sin1
             e2 = (-d)*sin1 + e*cos1
         }
         document.getElementById("neweq2").innerText = print_equation(a2,b2,c2,d2,e2,f2)
-        
         document.getElementById("anstetas").innerText =  `We have for rotation : first angle ${teta1.toFixed(2)}`
     }
-
     else document.getElementById("anstetas").innerText = "Rotation unnecessary"
 
     if (type > 4) findElements(type, a2,b2,c2,d2,e2,f2)
-    
 }
 
-
-function determination(a,b,c,d,e,f){
-
+function determination(a,b,c,d,e,f) {
     var Det = (a*c*f) - (((d**2)*c + (b**2)*f + (e**2)*a - b*e*d))/4
     
     console.log(a,b,c,d,e,f, typeof Det)
@@ -106,13 +98,26 @@ function determination(a,b,c,d,e,f){
     var cofator2 = a*f - ((d/2)**2)
     var cofator3 = a*c - ((b/2)**2)
 
-    if (!cofator3){
-        if (!Det){
+    // Determine the type of the conic given her coefficientes AX² + BXY + CY² + DX + EY + F = 0
+    var type
+    /*  
+        0 --> Empty
+        1 --> Point  
+        2 --> Two Identical Lines
+        3 --> Pair of parallel lines (non identical)
+        4 --> Pair of intersecting lines
+        5 --> Ellipse
+        6 --> Hyperbola
+        7 --> Parabola
+        8 --> Cirfunferemce
+    */
+    if (!cofator3) {
+        if (!Det) {
             if (!(cofator1 + cofator2)) {
                 document.getElementById("Type").innerText = "Pair of identical lines" 
                 type = 2
             }
-            else if(cofator1 + cofator2 > 0){
+            else if(cofator1 + cofator2 > 0) {
                 document.getElementById("Type").innerText = "Empty" 
                 type = 0
             } 
@@ -121,14 +126,11 @@ function determination(a,b,c,d,e,f){
                 type = 3
             }        
         } 
-
         else {
             document.getElementById("Type").innerText = "Parabola"            
             type = 7
         }
     }
-
-
     else if(cofator3 > 0){
         if (!Det) {
             document.getElementById("Type").innerText = "Point"
@@ -151,7 +153,6 @@ function determination(a,b,c,d,e,f){
             }
         }
     }
-
     else {
         if (!Det) {
             document.getElementById("Type").innerText = "Pair of intersecting lines" 
@@ -164,7 +165,7 @@ function determination(a,b,c,d,e,f){
     }
 }
 
-function print_equation(a,b,c,d,e,f){
+function print_equation(a,b,c,d,e,f) {
     var string =""
     
     if (a > 0) string += `${a}X² `
