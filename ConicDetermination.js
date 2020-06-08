@@ -43,9 +43,9 @@ function determination(a, b, c, d, e, f) {
     console.log(a,b,c,d,e,f, typeof Det)
     
     var t = a + c
-    var cofator1 = c*f - ((e/2)**2)
-    var cofator2 = a*f - ((d/2)**2)
-    var cofator3 = a*c - ((b/2)**2)
+    var coft1 = c*f - ((e/2)**2)
+    var coft2 = a*f - ((d/2)**2)
+    var coft3 = a*c - ((b/2)**2)
 
     /* Determine the type of the conic given her coefficientes AX² + BXY + CY² + DX + EY + F = 0
         0 -> Empty
@@ -59,13 +59,50 @@ function determination(a, b, c, d, e, f) {
         8 -> Cirfunferemce
     */
     var type
-    if (!cofator3) {
+    // EU TENTEI DEIXAR MAIS CLEAN, MAS POR ALGUM MOTIVO NUM FOI
+    // if (!(coft + Det + coft1 + coft2)) {
+    //     document.getElementById("Type").innerText = "Pair of identical lines" 
+    //     type = 2
+    // }
+    // else if (!(coft + Det) && (coft1 + coft2 > 0)) {
+    //     document.getElementById("Type").innerText = "Empty" 
+    //     type = 0
+    // }
+    // else if (!(coft + Det) && (coft1 + coft2 < 0)) {
+    //     document.getElementById("Type").innerText = "Pair parallel lines"
+    //     type = 3
+    // }
+    // else if ((coft3 > 0) && !Det) {
+    //     document.getElementById("Type").innerText = "Point"
+    //     type = 1
+    // }
+    // else if ((coft3 > 0) && (t.Det > 0)) {
+    //     document.getElementById("Type").innerText = "Empty"
+    //     type = 0
+    // }
+    // else if ((coft3 > 0) && (t.Det < 0) && (a == c)) {
+    //     document.getElementById("Type").innerText = "Circumference (Ellipse)" 
+    //     type = 8
+    // }    
+    // else if ((coft3 > 0) && (t.Det < 0) && !(a == c)) {
+    //     document.getElementById("Type").innerText = "Ellipse" 
+    //     type = 5
+    // }
+    // else if ((coft3 < 0) && !Det) {
+    //     document.getElementById("Type").innerText = "Pair of intersecting lines" 
+    //     type = 4
+    // }
+    // else if ((coft3 < 0) && Det) {
+    //     document.getElementById("Type").innerText = "Hyperbola" 
+    //     type = 6
+    // }
+    if (!coft3) {
         if (!Det) {
-            if (!(cofator1 + cofator2)) {
+            if (!(coft1 + coft2)) {
                 document.getElementById("Type").innerText = "Pair of identical lines" 
                 type = 2
             }
-            else if(cofator1 + cofator2 > 0) {
+            else if(coft1 + coft2 > 0) {
                 document.getElementById("Type").innerText = "Empty" 
                 type = 0
             }
@@ -79,7 +116,7 @@ function determination(a, b, c, d, e, f) {
             type = 7
         }
     }
-    else if(cofator3 > 0) {
+    else if(coft3 > 0) {
         if (!Det) {
             document.getElementById("Type").innerText = "Point"
             type = 1
