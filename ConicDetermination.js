@@ -58,6 +58,7 @@ function determination(a, b, c, d, e, f) {
         7 -> Parabola
         8 -> Cirfunferemce
     */
+
     var type
     // EU TENTEI DEIXAR MAIS CLEAN, MAS POR ALGUM MOTIVO NUM FOI
     // if (!(coft + Det + coft1 + coft2)) {
