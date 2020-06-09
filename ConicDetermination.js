@@ -297,10 +297,10 @@ function graph() {
     var h, k
     
     const det = a*c - (b/2)**2
-    var flag_first_det = det
+    var flagFirstDet = det
     
-    if(d != 0 || e != 0) {
-        if (!flag_first_det) {
+    if((d != 0) || (e != 0)) {
+        if (flagFirstDet == 0) {
             document.getElementById("notdet").innerText = "It was not possible to make a translation of the coordenate system"
         }
         else{
@@ -324,7 +324,8 @@ function graph() {
                 trowOnError: false
             })
                    
-            let neweq = printEquation(a2,b2,c2,d2,e2,f2)    
+            let neweq = printEquation(a2,b2,c2,d2,e2,f2)
+
             katex.render(neweq, document.getElementById("neweq", {
                 trowOnError: false
             }))
@@ -344,7 +345,7 @@ function graph() {
         var cos1 = Math.sqrt(1/(tanteta1**2 + 1))
         var sin1 = Math.sqrt(1 - (cos1)**2)
            
-        if (!flag_first_det) {
+        if (flagFirstDet == 0) {
             d2 = d*cos1 + e*sin1
             e2 = (-d)*sin1 + e*cos1
         }
