@@ -1,5 +1,5 @@
 function decToFrac(value, donly = true) {
-  var tolerance = 1.0E-5; 
+  var tolerance = 1.0E-10; 
   var h1 = 1;
   var h2 = 0;
   var k1 = 0;
@@ -60,27 +60,27 @@ function determination(a, b, c, d, e, f) {
         9 -> Cirfunferemce
     */
     var type
-    if (((coft3 > 0) && (t.Det > 0)) || (!coft3 && !Det && (coft1 + coft2 > 0))) {
+    if (((coft3 > 0) && (t.Det > 0)) || ((coft3 == 0) && (Det == 0) && (coft1 + coft2 > 0))) {
         document.getElementById("Type").innerText = "Empty"
         type = 0
     }
-    else if ((coft3 > 0) && !Det) {
+    else if ((coft3 > 0) && (Det == 0)) {
         document.getElementById("Type").innerText = "Point"
         type = 1
     }
-    else if (!coft3 && !Det && !(coft1 + coft2) && (a || b || c)) {
+    else if ((coft3 == 0) && (Det == 0) && (coft1 + coft2 == 0)) {
         document.getElementById("Type").innerText = "Pair of identical lines" 
         type = 2
     }
-    else if (!coft3 && !Det && (coft1 + coft2 < 0)) {
+    else if ((coft3 == 0) && (Det == 0) && (coft1 + coft2 < 0) && ((a != 0) || (b != 0) || (c != 0))) {
         document.getElementById("Type").innerText = "Pair parallel lines"
         type = 3
     }
-    else if ((coft3 < 0) && !Det) {
+    else if ((coft3 < 0) && (Det == 0)) {
         document.getElementById("Type").innerText = "Pair of intersecting lines" 
         type = 4
     }
-    else if (!coft3 && !Det && !(coft1 + coft2) && !(a && b && c)) {
+    else if ((coft3 == 0) && (Det == 0) && (coft1 + coft2 < 0) && ((a == 0) && (b == 0) && (c == 0))) {
         document.getElementById("Type").innerText = "Line"
         type = 5
     }
@@ -92,7 +92,7 @@ function determination(a, b, c, d, e, f) {
         document.getElementById("Type").innerText = "Hyperbola" 
         type = 7
     }
-    else if (!coft3 && (Det != 0)) {
+    else if ((coft3 == 0) && (Det != 0)) {
         document.getElementById("Type").innerText = "Parabola" 
         type = 8
     }    
@@ -100,6 +100,64 @@ function determination(a, b, c, d, e, f) {
         document.getElementById("Type").innerText = "Circumference (Ellipse)" 
         type = 9
     }    
+    // if (!coft3) {
+    //     if (!Det) {
+    //         if (!(coft1 + coft2)) {
+    //             document.getElementById("Type").innerText = "Pair of identical lines" 
+    //             type = 2
+    //         }
+    //         else if(coft1 + coft2 > 0) {
+    //             document.getElementById("Type").innerText = "Empty" 
+    //             type = 0
+    //         }
+    //         else {
+    //             if (!a && !b && !c) {
+    //                 document.getElementById("Type").innerText = "Line"
+    //                 type = 5
+    //             }
+    //             else {
+    //                 document.getElementById("Type").innerText = "Pair parallel lines"
+    //                 type = 3
+    //             }    
+    //         }        
+    //     } 
+    //     else {
+    //         document.getElementById("Type").innerText = "Parabola"            
+    //         type = 8
+    //     }
+    // }
+    // else if(coft3 > 0) {
+    //     if (!Det) {
+    //         document.getElementById("Type").innerText = "Point"
+    //         type = 1
+    //     }
+    //     else {
+    //         if (t*Det > 0) {
+    //             document.getElementById("Type").innerText = "Empty"
+    //             type = 0
+    //         }
+    //         else {
+    //             if (a == c) {
+    //                 document.getElementById("Type").innerText = "Circumference (Ellipse)" 
+    //                 type = 9
+    //             }
+    //             else {
+    //                 document.getElementById("Type").innerText = "Ellipse" 
+    //                 type = 6
+    //             } 
+    //         }
+    //     }
+    // }
+    // else {
+    //     if (!Det) {
+    //         document.getElementById("Type").innerText = "Pair of intersecting lines" 
+    //         type = 4
+    //     }
+    //     else {
+    //         document.getElementById("Type").innerText = "Hyperbola" 
+    //         type = 7
+    //     }
+    // }
 }
 
 function findElements(type, a, b, c, d, e, f) {
