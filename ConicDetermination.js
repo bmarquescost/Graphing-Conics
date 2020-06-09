@@ -311,12 +311,17 @@ function graph() {
             f2 = ((d/2)*h + (e/2)*k + f)
             
             var temp1 = decToFrac(h, false)
-            var temp2 = decToFrac(k, false)            
+            var temp2 = decToFrac(k, false)
+            
+            if (typeof(temp1) === "number") {temp1 = temp1.toString();}
+            if (typeof(temp2) === "number") {temp2 = temp2.toString();}
+            
             document.getElementById("anshk").innerHTML = `
                 The new coordenate system has 
                 (<span id="coordenada1"></span>, 
                 <span id="coordenada2"></span>)
                 as his origen coordernates at the old system ` 
+
             katex.render(temp1, document.getElementById("coordenada1"), {
                 trowOnError: false
             })
@@ -324,8 +329,8 @@ function graph() {
                 trowOnError: false
             })
                    
-            let neweq = printEquation(a2,b2,c2,d2,e2,f2)
-
+            let neweq = printEquation(a2,b2,c2,d2,e2,f2)    
+            if (typeof(neweq) === "number") {neweq = neweq.toString();}
             katex.render(neweq, document.getElementById("neweq", {
                 trowOnError: false
             }))
@@ -351,6 +356,7 @@ function graph() {
         }
 
         let neweq2 = printEquation(a2,b2,c2,d2,e2,f2)    
+        if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
         katex.render(neweq2, document.getElementById("neweq2", {
             trowOnError: false
         }))
