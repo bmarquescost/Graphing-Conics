@@ -102,64 +102,6 @@ function determination(a, b, c, d, e, f) {
     }    
 
     return type
-    // if (!coft3) {
-    //     if (!Det) {
-    //         if (!(coft1 + coft2)) {
-    //             document.getElementById("Type").innerText = "Pair of identical lines" 
-    //             type = 2
-    //         }
-    //         else if(coft1 + coft2 > 0) {
-    //             document.getElementById("Type").innerText = "Empty" 
-    //             type = 0
-    //         }
-    //         else {
-    //             if (!a && !b && !c) {
-    //                 document.getElementById("Type").innerText = "Line"
-    //                 type = 5
-    //             }
-    //             else {
-    //                 document.getElementById("Type").innerText = "Pair parallel lines"
-    //                 type = 3
-    //             }    
-    //         }        
-    //     } 
-    //     else {
-    //         document.getElementById("Type").innerText = "Parabola"            
-    //         type = 8
-    //     }
-    // }
-    // else if(coft3 > 0) {
-    //     if (!Det) {
-    //         document.getElementById("Type").innerText = "Point"
-    //         type = 1
-    //     }
-    //     else {
-    //         if (t*Det > 0) {
-    //             document.getElementById("Type").innerText = "Empty"
-    //             type = 0
-    //         }
-    //         else {
-    //             if (a == c) {
-    //                 document.getElementById("Type").innerText = "Circumference (Ellipse)" 
-    //                 type = 9
-    //             }
-    //             else {
-    //                 document.getElementById("Type").innerText = "Ellipse" 
-    //                 type = 6
-    //             } 
-    //         }
-    //     }
-    // }
-    // else {
-    //     if (!Det) {
-    //         document.getElementById("Type").innerText = "Pair of intersecting lines" 
-    //         type = 4
-    //     }
-    //     else {
-    //         document.getElementById("Type").innerText = "Hyperbola" 
-    //         type = 7
-    //     }
-    // }
 }
 
 function findElements(type, a, b, c, d, e, f) {
