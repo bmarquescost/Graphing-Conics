@@ -100,6 +100,8 @@ function determination(a, b, c, d, e, f) {
         document.getElementById("Type").innerText = "Circumference (Ellipse)" 
         type = 9
     }    
+
+    return type
     // if (!coft3) {
     //     if (!Det) {
     //         if (!(coft1 + coft2)) {
@@ -170,6 +172,7 @@ function findElements(type, a, b, c, d, e, f) {
     var center
     var radiun
     
+    document.getElementById("ElTitle").innerText = "Elements"       
     // Ellipse
     if (type == 6) {
         v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c))
@@ -277,9 +280,9 @@ function graph() {
     var d = eval(document.getElementById("d").value) || 0
     var e = eval(document.getElementById("e").value) || 0
     var f = eval(document.getElementById("f").value) || 0
-
-    determination(a,b,c,d,e,f)
     
+    var type = determination(a,b,c,d,e,f)
+
     let equation = printEquation(a,b,c,d,e,f)    
     katex.render(equation, document.getElementById("equation", {
         trowOnError: false
