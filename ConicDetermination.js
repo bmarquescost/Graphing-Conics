@@ -53,12 +53,12 @@ function determination(a, b, c, d, e, f) {
         2 -> Two Identical Lines
         3 -> Pair of parallel lines (non identical)
         4 -> Pair of intersecting lines
-        5 -> Ellipse
-        6 -> Hyperbola
-        7 -> Parabola
-        8 -> Cirfunferemce
+        5 -> Line
+        6 -> Ellipse
+        7 -> Hyperbola
+        8 -> Parabola
+        9 -> Cirfunferemce
     */
-
     var type
     // EU TENTEI DEIXAR MAIS CLEAN, MAS POR ALGUM MOTIVO NUM FOI
     // if (!(coft + Det + coft1 + coft2)) {
@@ -108,13 +108,19 @@ function determination(a, b, c, d, e, f) {
                 type = 0
             }
             else {
-                document.getElementById("Type").innerText = "Pair parallel lines"
-                type = 3
+                if (!a && !b && !c) {
+                    document.getElementById("Type").innerText = "Line"
+                    type = 5
+                }
+                else {
+                    document.getElementById("Type").innerText = "Pair parallel lines"
+                    type = 3
+                }    
             }        
         } 
         else {
             document.getElementById("Type").innerText = "Parabola"            
-            type = 7
+            type = 8
         }
     }
     else if(coft3 > 0) {
@@ -130,11 +136,11 @@ function determination(a, b, c, d, e, f) {
             else {
                 if (a == c) {
                     document.getElementById("Type").innerText = "Circumference (Ellipse)" 
-                    type = 8
+                    type = 9
                 }
                 else {
                     document.getElementById("Type").innerText = "Ellipse" 
-                    type = 5
+                    type = 6
                 } 
             }
         }
@@ -146,7 +152,7 @@ function determination(a, b, c, d, e, f) {
         }
         else {
             document.getElementById("Type").innerText = "Hyperbola" 
-            type = 6
+            type = 7
         }
     }
 }
@@ -162,7 +168,7 @@ function findElements(type, a, b, c, d, e, f) {
     var radiun
     
     // Ellipse
-    if (type == 5) {
+    if (type == 6) {
         v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c))
         v2 = -v1
         if (a < c) string += `First Vertice (A1): (${v1},0) Second Vertice (A2): (${v2},0).`
@@ -187,7 +193,7 @@ function findElements(type, a, b, c, d, e, f) {
         document.getElementById("Elements").innerText = string
     }
     // Hyperbola
-    else if (type == 6) {
+    else if (type == 7) {
         v1 = Math.sqrt((-f/a > 0)?(-f/a):(f/c))
         v2 = -v1   
         if (a > 0) string += `First Vertice (A1): (${v1},0) Second Vertice (A2): (${v2},0).`
@@ -206,7 +212,7 @@ function findElements(type, a, b, c, d, e, f) {
         document.getElementById("Elements").innerText = string       
     }
     // Parabola
-    else if (type == 7) {
+    else if (type == 8) {
         if (!a) {
             if (c>0) p = -d/4
             else p = d/4
@@ -220,7 +226,7 @@ function findElements(type, a, b, c, d, e, f) {
        document.getElementById("Elements").innerText = string
     }
     // Circumference
-    else {
+    else if (type == 9){
         if (a < 0) radius = Math.sqrt(f)
         else radius = Math.sqrt(-f)
         string = `The radius of the circumference is ${radius}`
@@ -285,10 +291,10 @@ function graph() {
     var h, k
     
     const det = a*c - (b/2)**2
-    var flagFirstDet = det
+    var flag_first_det = det
     
     if(d != 0 || e != 0) {
-        if (!flagFirstDet) {
+        if (!flag_first_det) {
             document.getElementById("notdet").innerText = "It was not possible to make a translation of the coordenate system"
         }
         else{
@@ -332,7 +338,7 @@ function graph() {
         var cos1 = Math.sqrt(1/(tanteta1**2 + 1))
         var sin1 = Math.sqrt(1 - (cos1)**2)
            
-        if (!flagFirstDet) {
+        if (!flag_first_det) {
             d2 = d*cos1 + e*sin1
             e2 = (-d)*sin1 + e*cos1
         }
@@ -346,5 +352,5 @@ function graph() {
     }
     else document.getElementById("anstetas").innerText = "Rotation unnecessary"
     
-    if (type > 4) findElements(type, a2,b2,c2,d2,e2,f2)
+    if (type > 5) findElements(type, a2,b2,c2,d2,e2,f2)
 }
