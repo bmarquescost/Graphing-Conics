@@ -1,5 +1,5 @@
 function decToFrac(value, donly = true) {
-  var tolerance = 1.0E-10; 
+  var tolerance = 1.0E-5; 
   var h1 = 1;
   var h2 = 0;
   var k1 = 0;
