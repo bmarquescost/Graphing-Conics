@@ -213,20 +213,30 @@ function auxPrintEquation(coef, add, string) {
     return string
 }
 
-function printEquation(a, b, c, d, e, f) {
+function printEquation(a, b, c, d, e, f, x, y) {
     let string = ""
 
-    string = auxPrintEquation(a, "X^2 ", string)
-    string = auxPrintEquation(b, "XY ", string)
-    string = auxPrintEquation(c, "Y^2 ", string)
-    string = auxPrintEquation(d, "X ", string)
-    string = auxPrintEquation(e, "Y ", string)
+    string = auxPrintEquation(a, `${x}^2 `, string)
+    string = auxPrintEquation(b, `${x}${y}`, string)
+    string = auxPrintEquation(c, `${y}^2 `, string)
+    string = auxPrintEquation(d, `${x} `, string)
+    string = auxPrintEquation(e, `${y} `, string)
     string = auxPrintEquation(f, " ", string)
 
     if (string) string += " = 0 "
     else string = "Not an equation..."
     
     return string
+}
+
+function mmc(a,b,c,d,e,f) {
+
+    let coefs = [a, b, c, d, e, f]
+     
+
+
+}
+
 }
 
 function graph() {
@@ -241,7 +251,7 @@ function graph() {
 
     let type = determination(a,b,c,d,e,f)
 
-    let equation = printEquation(a,b,c,d,e,f)
+    let equation = printEquation(a,b,c,d,e,f,"x","y")
     katex.render(equation, document.getElementById("equation", {
         trowOnError: false
     }))
@@ -287,7 +297,7 @@ function graph() {
                 trowOnError: false
             })
 
-            let neweq = printEquation(a2,b2,c2,d2,e2,f2)
+            let neweq = printEquation(a2,b2,c2,d2,e2,f2,"u","v")
             if (typeof(neweq) === "number") {neweq = neweq.toString();}
             katex.render(neweq, document.getElementById("firstEquation", {
                 trowOnError: false
@@ -313,7 +323,7 @@ function graph() {
             e2 = (-d)*sin1 + e*cos1
         }
 
-        let neweq2 = printEquation(a2,b2,c2,d2,e2,f2)    
+        let neweq2 = printEquation(a2,b2,c2,d2,e2,f2,"t","w")    
         if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
         katex.render(neweq2, document.getElementById("secondEquation", {
             trowOnError: false
