@@ -254,6 +254,7 @@ function mmc(a,b,c,d,e,f) {
         }
     }
 
+    Math.least
     return coefs
 }
 
@@ -368,15 +369,37 @@ function graph() {
     else document.getElementById("answerTetas").innerText = "Rotation unnecessary"
     
     if (type > 5) findElements(type, a2,b2,c2,d2,e2,f2)
+
+    plotgraph(a2, b2, c2, d2, e2, f2, type);
+    // Criando gráfico
+    // board.create('conic', [4, 7, -9, -2, 6, 3]);
+    // board.create('conic', [3, 8, -24, 0, 0, 0])
 }
 
+const plotgraph = (a, b, c, d, e, f, type) => {
+    board.create('conic', [a, c, f, b/2, d/2, e/2]);
+    let y0 = 0;
 
-const createGraph = (a, b, c, d, e, f) => {
+    alert(type);
 
-    let board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], axis:true});
+
+    switch (type) {
+        case 0:
+            break;
+        case 1:
+            board.create('point', [0, 0])
+            break;
+        case 4: // -> Precisamos
+        // case 2:
+        //     board.create('line', []);
+        //     break;
+        // case 9: --> Desnecessário
+        default:
+            board.create('conic', [a, c, f, b/2, d/2, e/2]);
+            break;
+    }
 }
-
-
+var board = JXG.JSXGraph.initBoard('jgxbox1', {boundingbox: [-10, 10, 10, -10], axis:true});
 /*
 
 43
@@ -404,4 +427,17 @@ const createGraph = (a, b, c, d, e, f) => {
 6
 -9
 
+*/
+
+/* Determine the type of the conic given her coefficientes AX² + BXY + CY² + DX + EY + F = 0
+    0 -> Empty
+    1 -> Point  
+    2 -> Two Identical Lines
+    3 -> Pair of parallel lines (non identical)
+    4 -> Pair of intersecting lines
+    5 -> Line
+    6 -> Ellipse
+    7 -> Hyperbola
+    8 -> Parabola
+    9 -> Cirfunferemce
 */
