@@ -1,51 +1,51 @@
 function decToFrac(value, donly = true) {
-  var tolerance = 1.0E-10; 
-  var h1 = 1;
-  var h2 = 0;
-  var k1 = 0;
-  var k2 = 1;
-  var negative = false;
-  var i;
+    let tolerance = 1.0E-10; 
+    let h1 = 1;
+    let h2 = 0;
+    let k1 = 0;
+    let k2 = 1;
+    let negative = false;
+    let i;
 
-  // Integer case, stop the script
-  if (parseInt(value) == value) { 
-    return value;
-  } else if (value < 0) {
-    negative = true;
-    value = -value;
-  }
+    // Integer case, stop the script
+    if (parseFloat(value) == value) { 
+        return value;
+    } else if (value < 0) {
+        negative = true;
+        value = -value;
+    }
 
-  if (donly) {
-    i = parseInt(value);
-    value -= i;
-  }
+    if (donly) {
+        i = parseFloat(value);
+        value -= i;
+    }
 
-  var b = value;
+    let b = value;
 
-  do {
-    var a = Math.floor(b);
-    console.log(a)
-    var aux = h1;
-    h1 = a * h1 + h2;
-    h2 = aux;
-    aux = k1;
-    k1 = a * k1 + k2;
-    k2 = aux;
-    b = 1 / (b - a);
-  } while (Math.abs(value - h1 / k1) > value * tolerance);
+    do {
+        let a = Math.floor(b);
+        console.log(a)
+        let aux = h1;
+        h1 = a * h1 + h2;
+        h2 = aux;
+        aux = k1;
+        k1 = a * k1 + k2;
+        k2 = aux;
+        b = 1 / (b - a);
+    } while (Math.abs(value - h1 / k1) > value * tolerance);
 
-  return (negative ? "-" : '') + ((donly & (i != 0)) ? i + ' ' : '') + (h1 == 0 ? '' : `\\frac{${h1}}{${k1}}`);
+    return (negative ? "-" : '') + ((donly & (i != 0)) ? i + ' ' : '') + (h1 == 0 ? '' : `\\frac{${h1}}{${k1}}`);
 }
 
 function determination(a, b, c, d, e, f) {
-    var Det = (a*c*f) - (((d**2)*c + (b**2)*f + (e**2)*a - b*e*d))/4
+    let Det = (a*c*f) - (((d**2)*c + (b**2)*f + (e**2)*a - b*e*d))/4
     
     console.log(a,b,c,d,e,f, typeof Det)
-    
-    var t = a + c
-    var coft1 = c*f - ((e/2)**2)
-    var coft2 = a*f - ((d/2)**2)
-    var coft3 = a*c - ((b/2)**2)
+ 
+    let t = a + c
+    let coft1 = c*f - ((e/2)**2)
+    let coft2 = a*f - ((d/2)**2)
+    let coft3 = a*c - ((b/2)**2)
 
     /* Determine the type of the conic given her coefficientes AX² + BXY + CY² + DX + EY + F = 0
         0 -> Empty
@@ -59,7 +59,8 @@ function determination(a, b, c, d, e, f) {
         8 -> Parabola
         9 -> Cirfunferemce
     */
-    var type
+
+    let type
     if (((coft3 > 0) && (t.Det > 0)) || ((coft3 == 0) && (Det == 0) && (coft1 + coft2 > 0))) {
         document.getElementById("Type").innerText = "Empty"
         type = 0
@@ -102,75 +103,17 @@ function determination(a, b, c, d, e, f) {
     }    
 
     return type
-    // if (!coft3) {
-    //     if (!Det) {
-    //         if (!(coft1 + coft2)) {
-    //             document.getElementById("Type").innerText = "Pair of identical lines" 
-    //             type = 2
-    //         }
-    //         else if(coft1 + coft2 > 0) {
-    //             document.getElementById("Type").innerText = "Empty" 
-    //             type = 0
-    //         }
-    //         else {
-    //             if (!a && !b && !c) {
-    //                 document.getElementById("Type").innerText = "Line"
-    //                 type = 5
-    //             }
-    //             else {
-    //                 document.getElementById("Type").innerText = "Pair parallel lines"
-    //                 type = 3
-    //             }    
-    //         }        
-    //     } 
-    //     else {
-    //         document.getElementById("Type").innerText = "Parabola"            
-    //         type = 8
-    //     }
-    // }
-    // else if(coft3 > 0) {
-    //     if (!Det) {
-    //         document.getElementById("Type").innerText = "Point"
-    //         type = 1
-    //     }
-    //     else {
-    //         if (t*Det > 0) {
-    //             document.getElementById("Type").innerText = "Empty"
-    //             type = 0
-    //         }
-    //         else {
-    //             if (a == c) {
-    //                 document.getElementById("Type").innerText = "Circumference (Ellipse)" 
-    //                 type = 9
-    //             }
-    //             else {
-    //                 document.getElementById("Type").innerText = "Ellipse" 
-    //                 type = 6
-    //             } 
-    //         }
-    //     }
-    // }
-    // else {
-    //     if (!Det) {
-    //         document.getElementById("Type").innerText = "Pair of intersecting lines" 
-    //         type = 4
-    //     }
-    //     else {
-    //         document.getElementById("Type").innerText = "Hyperbola" 
-    //         type = 7
-    //     }
-    // }
 }
 
 function findElements(type, a, b, c, d, e, f) {
-    var f1, f2
-    var exc 
-    var v1, v2
-    var b1,b2
-    var string = ""
-    var p 
-    var center
-    var radiun
+    let f1, f2
+    let exc 
+    let v1, v2
+    let b1,b2
+    let string = ""
+    let p 
+    let center
+    let radiun
     
     document.getElementById("ElTitle").innerText = "Elements"       
     // Ellipse
@@ -183,40 +126,52 @@ function findElements(type, a, b, c, d, e, f) {
 
         b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a))
         b2 = -b1
-        if (a < c) string += `Third Vertice  (B1): (0,${b1}) . Fourth Vertice (B2): (0,${b2}).`
-        else string += `Third Vertice (B1): (${b1},0) . Fourth Vertice (B2): (${b2},0).`
-        string += "\n---------------------------------------------------------------------------------------------------\n"
+        if (a < c) string += `Third Vertice  (B1): (0, ${b1}) . Fourth Vertice (B2): (0, ${b2}).`
+        else string += `Third Vertice (B1): (${b1}, 0) . Fourth Vertice (B2): (${b2}, 0).`
+        string += "<br>---------------------------------------------------------------------------------------------------<br>"
 
         f1 = Math.sqrt((v1**2) - (b1**2))
         f2 = -f1
-        if (a < c) string += `First Focus (F1): (${f1},0) . Second Focus (F2): (${f2},0).`
-        else string += `First Focus (F1): (0,${f1}) . Second Focus (F2): (0,${f2}).`
-        string += "\n---------------------------------------------------------------------------------------------------\n"
+        if (a < c) string += `First Focus (F1): (${f1}, 0) . Second Focus (F2): (${f2}, 0).`
+        else string += `First Focus (F1): (0, ${f1}) . Second Focus (F2): (0, ${f2}).`
+        string += "<br>---------------------------------------------------------------------------------------------------<br>"
+        string += `Excentricite : <span id="excentricite"></span>`
+        document.getElementById("Elements").innerHTML = string;
 
-        exc = f1/v1
-        string += `Excentricite : ${exc}`
+        exc = f1/v1;
+        exc = decToFrac(exc, false);
 
-        document.getElementById("Elements").innerText = string
+        katex.render(exc, document.getElementById("excentricite"), {
+            trowOnError: false
+        })
     }
     // Hyperbola
     else if (type == 7) {
-        v1 = Math.sqrt((-f/a > 0)?(-f/a):(f/c))
+        let resultado = (-f/a > 0) ? (-f/a):(f/c);
+        resultado = Math.abs(resultado);
+
+        v1 = Math.sqrt(resultado);
         v2 = -v1   
         if (a > 0) string += `First Vertice (A1): (${v1},0) Second Vertice (A2): (${v2},0).`
         else string += `First Vertice (A1): (0,${v1}) Second Vertice (A2): (0,${v2}).`
-        string += "\n---------------------------------------------------------------------------------------------------\n"
+        string += "<br>---------------------------------------------------------------------------------------------------<br>"
         
         f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2)
         f2 = -f1
         if (a > 0) string += `First Focus (F1): (${f1},0) Second Focus (F2): (${f2},0).`
         else string += `First Focus (F1): (0,${f1}) Second Focus (F2): (0,${f2}).`
-        string += "\n---------------------------------------------------------------------------------------------------\n"
+        string += "<br>---------------------------------------------------------------------------------------------------<br>"
+        string += `Excentricite : <span id="excentricite"></span>`
+        document.getElementById("Elements").innerHTML = string;
 
-        exc = f1/v1
-        string += `Excentricite : ${exc}`   
+        exc = f1/v1;
+        exc = decToFrac(exc, false);
 
-        document.getElementById("Elements").innerText = string       
+        katex.render(exc, document.getElementById("excentricite"), {
+            trowOnError: false
+        })
     }
+
     // Parabola
     else if (type == 8) {
         if (!a) {
@@ -228,7 +183,7 @@ function findElements(type, a, b, c, d, e, f) {
             if (a>0) p = -e/4
             else p = e/4
             string += `P = ${p}, and the focus is at F (0,${p})` 
-       }
+        }
        document.getElementById("Elements").innerText = string
     }
     // Circumference
@@ -241,7 +196,7 @@ function findElements(type, a, b, c, d, e, f) {
 }
 
 function auxPrintEquation(coef, add, string) {
-    var temp = ""
+    let temp = ""
 
     if (coef > 0) {
         temp = decToFrac(coef, false)
@@ -257,7 +212,7 @@ function auxPrintEquation(coef, add, string) {
 }
 
 function printEquation(a, b, c, d, e, f) {
-    var string = ""
+    let string = ""
 
     string = auxPrintEquation(a, "X^2 ", string)
     string = auxPrintEquation(b, "XY ", string)
@@ -274,34 +229,35 @@ function printEquation(a, b, c, d, e, f) {
 
 function graph() {
     // Getting all coefficients 
-    var a = eval(document.getElementById("a").value) || 0
-    var b = eval(document.getElementById("b").value) || 0
-    var c = eval(document.getElementById("c").value) || 0
-    var d = eval(document.getElementById("d").value) || 0
-    var e = eval(document.getElementById("e").value) || 0
-    var f = eval(document.getElementById("f").value) || 0
     
-    var type = determination(a,b,c,d,e,f)
+    let a = parseFloat(document.getElementById("coefA").value) || 0
+    let b = parseFloat(document.getElementById("coefB").value) || 0
+    let c = parseFloat(document.getElementById("coefC").value) || 0
+    let d = parseFloat(document.getElementById("coefD").value) || 0
+    let e = parseFloat(document.getElementById("coefE").value) || 0
+    let f = parseFloat(document.getElementById("coefF").value) || 0
+
+    let type = determination(a,b,c,d,e,f)
 
     let equation = printEquation(a,b,c,d,e,f)    
     katex.render(equation, document.getElementById("equation", {
         trowOnError: false
     }))
 
-    var a2 = a
-    var b2 = b
-    var c2 = c
-    var d2 = d
-    var e2 = e
-    var f2 = f
-    var h, k
+    let a2 = a
+    let b2 = b
+    let c2 = c
+    let d2 = d
+    let e2 = e
+    let f2 = f
+    let h, k
     
     const det = a*c - (b/2)**2
-    var flagFirstDet = det
+    let flagFirstDet = det
     
     if((d != 0) || (e != 0)) {
         if (flagFirstDet == 0) {
-            document.getElementById("notdet").innerText = "It was not possible to make a translation of the coordenate system"
+            document.getElementById("answerHK").innerText = "It was not possible to make a translation of the coordenate system"
         }
         else{
             h = ((-d/2) * c - (-e/2) * (b/2))/det
@@ -310,13 +266,13 @@ function graph() {
             e2 = 0
             f2 = ((d/2)*h + (e/2)*k + f)
             
-            var temp1 = decToFrac(h, false)
-            var temp2 = decToFrac(k, false)
+            let temp1 = decToFrac(h, false)
+            let temp2 = decToFrac(k, false)
             
             if (typeof(temp1) === "number") {temp1 = temp1.toString();}
             if (typeof(temp2) === "number") {temp2 = temp2.toString();}
             
-            document.getElementById("anshk").innerHTML = `
+            document.getElementById("answerHK").innerHTML = `
                 The new coordenate system has 
                 (<span id="coordenada1"></span>, 
                 <span id="coordenada2"></span>)
@@ -328,27 +284,27 @@ function graph() {
             katex.render(temp2, document.getElementById("coordenada2"), {
                 trowOnError: false
             })
-                   
-            let neweq = printEquation(a2,b2,c2,d2,e2,f2)    
+
+            let neweq = printEquation(a2,b2,c2,d2,e2,f2)
             if (typeof(neweq) === "number") {neweq = neweq.toString();}
-            katex.render(neweq, document.getElementById("neweq", {
+            katex.render(neweq, document.getElementById("firstEquation", {
                 trowOnError: false
             }))
         }
     }
-    else document.getElementById("anshk").innerText = "Translation unnecessary"
+    else document.getElementById("answerHK").innerText = "Translation unnecessary"
     
     if(b2 != 0) {
-        var tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
-        var teta1 = (Math.atan(tanteta1))*(180/Math.PI)
-        var teta1rad = Math.atan(tanteta1)
+        let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
+        let teta1 = (Math.atan(tanteta1))*(180/Math.PI)
+        let teta1rad = Math.atan(tanteta1)
 
         a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
         b2 = 0
         c2 = a + c - a2
        
-        var cos1 = Math.sqrt(1/(tanteta1**2 + 1))
-        var sin1 = Math.sqrt(1 - (cos1)**2)
+        let cos1 = Math.sqrt(1/(tanteta1**2 + 1))
+        let sin1 = Math.sqrt(1 - (cos1)**2)
            
         if (flagFirstDet == 0) {
             d2 = d*cos1 + e*sin1
@@ -357,13 +313,44 @@ function graph() {
 
         let neweq2 = printEquation(a2,b2,c2,d2,e2,f2)    
         if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
-        katex.render(neweq2, document.getElementById("neweq2", {
+        katex.render(neweq2, document.getElementById("secondEquation", {
             trowOnError: false
         }))
 
-        document.getElementById("anstetas").innerText =  `We have for rotation : first angle ${teta1.toFixed(2)}`
+        document.getElementById("answerTetas").innerText =  `We have for rotation : first angle ${teta1.toFixed(2)}`
     }
-    else document.getElementById("anstetas").innerText = "Rotation unnecessary"
+    else document.getElementById("answerTetas").innerText = "Rotation unnecessary"
     
     if (type > 5) findElements(type, a2,b2,c2,d2,e2,f2)
 }
+
+
+
+/*
+
+43
+123
+13
+23
+4324
+2
+
+-------
+
+4
+0
+-9
+0
+0
+-36
+
+------
+
+4
+-4
+7
+12
+6
+-9
+
+*/

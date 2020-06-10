@@ -1,0 +1,25 @@
+{
+  "name": "graphing-conics",
+  "version": "1.0.0",
+  "description": "Projeto de Conicas para o Farid",
+  "main": "ConicDetermination.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmarquescost/Graphing-Conics.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bmarquescost/Graphing-Conics/issues"
+  },
+  "homepage": "https://github.com/bmarquescost/Graphing-Conics#readme",
+  "devDependencies": {
+    "eslint": "^7.2.0"
+  },
+  "dependencies": {
+    "katex": "^0.11.1"
+  }
+}
