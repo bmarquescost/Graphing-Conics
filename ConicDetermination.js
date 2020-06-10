@@ -773,8 +773,3 @@ const plotgraph = (a, b, c, d, e, f, type) => {
             break;
     }
 }
-
-    
-// Pensei em fazer dois gráficos um pra plotar o gráfico inicial e outro pra plotar os
-// os roles pós translação etc e tals
-
