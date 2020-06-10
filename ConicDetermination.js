@@ -117,7 +117,8 @@ function findElements(type, a, b, c, d, e, f) {
     let center
     let radiun
 
-    document.getElementById("ElTitle").innerText = "Elements"       
+    document.getElementById("ElTitle").innerText = "Elements"  
+    //////////////////////////////////////////////////////////////////////// '\n' bugando o print no html     
     // Ellipse
     if (type == 6) {
         v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c))
@@ -342,7 +343,7 @@ function graph() {
     
     if(b2 != 0) {
         let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
-        let teta1 = (Math.atan(tanteta1))*(180/Math.PI)
+        let teta1 = (Math.atan(tanteta1))*(180/Math.PI) /////////////////////////AJEITAR DETALHE DO ANGULO
         let teta1rad = Math.atan(tanteta1)
 
         a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
