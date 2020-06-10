@@ -7,48 +7,53 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
   
   <link rel="stylesheet" href="./style.css">
+  <!-- <link rel="stylesheet" href="./styleOld.css"> -->
 
-  <script type="text/javascript" charset="UTF-8" src="./jsxgraph.js"></script>
-  <link rel="stylesheet" type="text/css" href="./jsxgraph.css" />
+  <script type="text/javascript" charset="UTF-8" src="./static/jsxgraph.js"></script>
+  <link rel="stylesheet" type="text/css" href="./static/jsxgraph.css" />
 
   <title>UberConica</title>
 </head>
 <body>
-  <h1>CONIC SIMPLIFICATION</h1>
-  <h2>TYPE THE COEFFICIENTS VALUES: </h2>
-  <div class="form-conics">
-    <form>
-      <input type="number" name="x²" placeholder="Insira x²" id="coefA"></input>  
-      <input type="number" name="xy" placeholder="Insira xy" id="coefB"></input>  
-      <input type="number" name="y²" placeholder="Insira y²" id="coefC"></input>  
-      <input type="number" name="x" placeholder="Insira x" id="coefD"></input>  
-      <input type="number" name="y" placeholder="Insira y" id="coefE"></input>  
+  <h1>Conic Simplification</h1>
+  <h2>Inputs </h2>
+  <div class="forms-container">
+    <div class="inputs">
+      <input type="number" name="x²" placeholder="Insert x²" id="coefA"></input>  
+      <input type="number" name="xy" placeholder="Insert xy" id="coefB"></input>  
+      <input type="number" name="y²" placeholder="Insert y²" id="coefC"></input>  
+      <input type="number" name="x" placeholder="Insert x" id="coefD"></input>  
+      <input type="number" name="y" placeholder="Insert y" id="coefE"></input>  
       <input type="number" name="independent" placeholder="Termo independente" id="coefF"></input>  
-    </form>
-    <button type="submit" onclick="graph()">Faride-se</button>
+    </div>
+    <button type="submit" onclick="graph()">Calculate</button>
   </div>
-  <div class="result-container">
+  <div class="result-container hidden">
     <h3 id="equation"></h3>
-    <h2>TRANSLATION</h2>
+    <h2>Translation</h2>
     <h3 id="answerHK"></h3>
     <h3 id="firstEquation"></h3>
-    <h2>ROTATION</h2>
+    <h2>Rotation</h2>
     <h3 id="answerTetas"></h3>
     <h3 id="secondEquation"></h3>
-    <h2>TYPE OF THE CONIC</h2>
+    <h2>Type of conic</h2>
     <h3 id="Type"></h3>
     <h3 id="ElTitle"></h3>
     <h3 id="Elements"></h3>
   </div>
-  <div id="jgxbox1" class="jxgbox" style="margin:auto; width:1200px; height:600px; display:flex; justify-content: center;">
-  
+  <div class="graph-container hidden">
+    <h2 class="black">Plotted Graphs</h2>
+    <div class="graphs">
+      <div id="jxgbox1" class="jxgbox"></div>
+      <div id="jxgbox2" class="jxgbox"></div>
+    </div>
   </div>
 
   <script src="ConicDetermination.js"></script>
 </body>
 </html>
 
-<!-- 
+<!--
 43
 123
 13
