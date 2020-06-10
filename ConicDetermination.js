@@ -8,7 +8,7 @@ function decToFrac(value, donly = true) {
     let i;
 
     // Integer case, stop the script
-    if (parseFloat(value) == value) { 
+    if (parseInt(value) == value) { 
         return value;
     } else if (value < 0) {
         negative = true;
@@ -61,7 +61,8 @@ function determination(a, b, c, d, e, f) {
     */
 
     let type
-    if (((coft3 > 0) && (t.Det > 0)) || ((coft3 == 0) && (Det == 0) && (coft1 + coft2 > 0))) {
+
+    if (((coft3 > 0) && (t * Det > 0)) || ((coft3 == 0) && (Det == 0) && (coft1 + coft2 > 0))) {
         document.getElementById("Type").innerText = "Empty"
         type = 0
     }
@@ -85,7 +86,7 @@ function determination(a, b, c, d, e, f) {
         document.getElementById("Type").innerText = "Line"
         type = 5
     }
-    else if ((coft3 > 0) && (t.Det < 0) && (a != c)) {
+    else if ((coft3 > 0) && (t * Det < 0) && (a != c)) {
         document.getElementById("Type").innerText = "Ellipse" 
         type = 6
     }
@@ -97,11 +98,12 @@ function determination(a, b, c, d, e, f) {
         document.getElementById("Type").innerText = "Parabola" 
         type = 8
     }    
-    else if ((coft3 > 0) && (t.Det < 0) && (a == c)) {
+    else if ((coft3 > 0) && (t * Det < 0) && (a == c)) {
         document.getElementById("Type").innerText = "Circumference (Ellipse)" 
         type = 9
     }    
 
+    alert(type);
     return type
 }
 
@@ -114,7 +116,7 @@ function findElements(type, a, b, c, d, e, f) {
     let p 
     let center
     let radiun
-    
+
     document.getElementById("ElTitle").innerText = "Elements"       
     // Ellipse
     if (type == 6) {
@@ -175,13 +177,13 @@ function findElements(type, a, b, c, d, e, f) {
     // Parabola
     else if (type == 8) {
         if (!a) {
-            if (c>0) p = -d/4
-            else p = d/4
+            if (c>0) p = -d/(4*c);
+            else p = d/(4*c);
             string = `P = ${p}, and the focus is at F (${p},0)`             
         }
         if (!c) {
-            if (a>0) p = -e/4
-            else p = e/4
+            if (a>0) p = -e/(4*a);
+            else p = e/(4*a);
             string += `P = ${p}, and the focus is at F (0,${p})` 
         }
        document.getElementById("Elements").innerText = string
@@ -239,7 +241,7 @@ function graph() {
 
     let type = determination(a,b,c,d,e,f)
 
-    let equation = printEquation(a,b,c,d,e,f)    
+    let equation = printEquation(a,b,c,d,e,f)
     katex.render(equation, document.getElementById("equation", {
         trowOnError: false
     }))
