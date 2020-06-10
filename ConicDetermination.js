@@ -230,6 +230,7 @@ function printEquation(a, b, c, d, e, f, x, y) {
 }
 
 function mmc(a,b,c,d,e,f) {
+    let denominador;
 
     let coefs = [a, b, c, d, e, f]
     coefs = coefs.map( coefieciente => (Math.abs(coefieciente)))
