@@ -10,7 +10,7 @@ function decToFrac(value, donly = true) {
 
     // Integer case, stop the script
     if (parseInt(value) == value) { 
-        return value;
+        return value.toString();
     } else if (value < 0) {
         negative = true;
         value = -value;
@@ -25,7 +25,6 @@ function decToFrac(value, donly = true) {
 
     do {
         let a = Math.floor(b);
-        console.log(a)
         let aux = h1;
         h1 = a * h1 + h2;
         h2 = aux;
@@ -35,14 +34,16 @@ function decToFrac(value, donly = true) {
         b = 1 / (b - a);
     } while (Math.abs(value - h1 / k1) > value * tolerance);
 
-    return (negative ? "-" : '') + ((donly & (i != 0)) ? i + ' ' : '') + (h1 == 0 ? '' : `\\frac{${h1}}{${k1}}`);
+    let resultadoFracao = (negative ? "-" : '') + ((donly & (i != 0)) ? i + ' ' : '') + (h1 == 0 ? '' : `\\frac{${h1}}{${k1}}`);
+
+    if (typeof(resultadoFracao) === "number") {resultadoFracao = resultadoFracao.toString();}
+
+    return resultadoFracao;
 }
 
 function determination(a, b, c, d, e, f) {
     let Det = (a*c*f) - (((d**2)*c + (b**2)*f + (e**2)*a - b*e*d))/4
     
-    console.log(a,b,c,d,e,f, typeof Det)
- 
     let t = a + c
     let coft1 = c*f - ((e/2)**2)
     let coft2 = a*f - ((d/2)**2)
@@ -123,27 +124,46 @@ function findElements(type, a, b, c, d, e, f) {
     if (type == 6) {
         v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c))
         v2 = -v1
-        if (a < c) string += `First Vertice (A1): (${v1},0) Second Vertice (A2): (${v2},0).`
-        else string += `First Vertice (A1): (0,${v1}) Second Vertice (A2): (0,${v2}).`
-        string += "\n---------------------------------------------------------------------------------------------------\n"
+        if (a < c) string += `First Vertice (A1): (<span id="v1"></span>,0) Second Vertice (A2): (<span id="v2"></span>, 0).`
+        else string += `First Vertice (A1): (0,<span id="v1"></span>) Second Vertice (A2): (0,<span id="v2"></span>).`
+        string += "<br>---------------------------------------------------------------------------------------------------<br>"
 
         b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a))
         b2 = -b1
-        if (a < c) string += `Third Vertice  (B1): (0, ${b1}) . Fourth Vertice (B2): (0, ${b2}).`
-        else string += `Third Vertice (B1): (${b1}, 0) . Fourth Vertice (B2): (${b2}, 0).`
+        if (a < c) string += `Third Vertice  (B1): (0, <span id="b1"></span>) . Fourth Vertice (B2): (0, <span id="b2"></span>).`
+        else string += `Third Vertice (B1): (<span id="b1"></span>, 0) . Fourth Vertice (B2): (<span id="b2"></span>, 0).`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
 
         f1 = Math.sqrt((v1**2) - (b1**2))
         f2 = -f1
-        if (a < c) string += `First Focus (F1): (${f1}, 0) . Second Focus (F2): (${f2}, 0).`
-        else string += `First Focus (F1): (0, ${f1}) . Second Focus (F2): (0, ${f2}).`
+        if (a < c) string += `First Focus (F1): (<span id="f1"></span>, 0) . Second Focus (F2): (<span id="f2"></span>, 0).`
+        else string += `First Focus (F1): (0,<span id="f1"></span>) . Second Focus (F2): (0, <span id="f2"></span>).`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
         string += `Excentricite : <span id="excentricite"></span>`
-        document.getElementById("Elements").innerHTML = string;
-
         exc = f1/v1;
         exc = decToFrac(exc, false);
+        
+        // Renderizando resultado
+        document.getElementById("Elements").innerHTML = string;
 
+        katex.render((decToFrac(v1, false)), document.getElementById("v1"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(v2, false)), document.getElementById("v2"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(b1, false)), document.getElementById("b1"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(b2, false)), document.getElementById("b2"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(f1, false)), document.getElementById("f1"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(f2, false)), document.getElementById("f2"), {
+            trowOnError: false
+        })
         katex.render(exc, document.getElementById("excentricite"), {
             trowOnError: false
         })
@@ -155,22 +175,34 @@ function findElements(type, a, b, c, d, e, f) {
 
         v1 = Math.sqrt(resultado);
         v2 = -v1   
-        if (a > 0) string += `First Vertice (A1): (${v1},0) Second Vertice (A2): (${v2},0).`
-        else string += `First Vertice (A1): (0,${v1}) Second Vertice (A2): (0,${v2}).`
+        if (a > 0) string += `First Vertice (A1): (<span id="v1"></span>,0) Second Vertice (A2): (<span id="v2"></span>,0).`
+        else string += `First Vertice (A1): (0,<span id="v1"></span>) Second Vertice (A2): (0,<span id="v2"></span>).`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
         
         f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2)
         f2 = -f1
-        if (a > 0) string += `First Focus (F1): (${f1},0) Second Focus (F2): (${f2},0).`
-        else string += `First Focus (F1): (0,${f1}) Second Focus (F2): (0,${f2}).`
+        if (a > 0) string += `First Focus (F1): (<span id="f1"></span>,0) Second Focus (F2): (<span id="f2"></span>,0).`
+        else string += `First Focus (F1): (0<span id="f1"></span> Second Focus (F2): (0,<span id="f2"></span>).`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
         string += `Excentricite : <span id="excentricite"></span>`
-        document.getElementById("Elements").innerHTML = string;
-
         exc = f1/v1;
         exc = decToFrac(exc, false);
 
-        katex.render(exc, document.getElementById("excentricite"), {
+        // Renderizando Resultado
+        document.getElementById("Elements").innerHTML = string;
+        katex.render((decToFrac(v1, false)), document.getElementById("v1"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(v2, false)), document.getElementById("v2"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(f1, false)), document.getElementById("f1"), {
+            trowOnError: false
+        })
+        katex.render((decToFrac(f2, false)), document.getElementById("f2"), {
+            trowOnError: false
+        })
+        katex.render((exc), document.getElementById("excentricite"), {
             trowOnError: false
         })
     }
@@ -180,21 +212,31 @@ function findElements(type, a, b, c, d, e, f) {
         if (!a) {
             if (c>0) p = -d/(4*c);
             else p = d/(4*c);
-            string = `P = ${p}, and the focus is at F (${p},0)`             
+            string = `P = <span id="p"></span>, and the focus is at F  <span id="p"></span>,0)`             
         }
         if (!c) {
             if (a>0) p = -e/(4*a);
             else p = e/(4*a);
-            string += `P = ${p}, and the focus is at F (0,${p})` 
+            string += `P = <span id="p"></span>, and the focus is at F (0 <span id="p"></span>)` 
         }
-       document.getElementById("Elements").innerText = string
+
+        // Renderizando Resultado
+        document.getElementById("Elements").innerText = string
+        katex.render((decToFrac(p, false)), document.getElementById("p"), {
+            trowOnError: false
+        })
     }
     // Circumference
     else if (type == 9){
         if (a < 0) radius = Math.sqrt(f)
         else radius = Math.sqrt(-f)
-        string = `The radius of the circumference is ${radius}`
+        string = `The radius of the circumference is <span id="radius"></span>`
+
+        // Renderizando Resultado
         document.getElementById("Elements").innerText = string
+        katex.render((decToFrac(radius, false)), document.getElementById("radius"), {
+            trowOnError: false
+        })
     }
 }
 
@@ -231,7 +273,7 @@ function printEquation(a, b, c, d, e, f, x, y) {
     string = auxPrintEquation(f, " ", string)
 
     if (string) string += " = 0 "
-    else string = "Not an equation..."
+    else string = false;
     
     return string
 }
@@ -267,8 +309,17 @@ function mmc(a,b,c,d,e,f) {
 }
 
 function graph() {
-    // Getting all coefficients 
+    // Mostrando todos os resultados, e zerando anteriores
+    hiddenElements = document.getElementsByClassName("hidden");
+    hiddenElements[0].style.display = "block"
+    hiddenElements[1].style.display = "block"
     
+    document.getElementById("Elements").innerHTML = "";
+    document.getElementById("firstEquation").innerHTML = "";
+    document.getElementById("secondEquation").innerHTML = "";
+    document.getElementById("ElTitle").innerText = "";  
+    
+    // Getting all coefficients 
     let a = parseFloat(document.getElementById("coefA").value) || 0
     let b = parseFloat(document.getElementById("coefB").value) || 0
     let c = parseFloat(document.getElementById("coefC").value) || 0
@@ -279,9 +330,15 @@ function graph() {
     let type = determination(a,b,c,d,e,f)
 
     let equation = printEquation(a,b,c,d,e,f,"x","y")
-    katex.render(equation, document.getElementById("equation", {
-        trowOnError: false
-    }))
+
+    if (!equation) {
+        document.getElementById("equation").innerText = "Not an equation"
+    } else {
+        katex.render(equation, document.getElementById("equation", {
+            trowOnError: false
+        }))
+    }
+    
 
     let a2 = a
     let b2 = b
@@ -372,7 +429,7 @@ function graph() {
             trowOnError: false
         }))
 
-        document.getElementById("answerTetas").innerText =  `We have for rotation : first angle ${teta1.toFixed(2)}`
+        document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)}`
     }
     else document.getElementById("answerTetas").innerText = "Rotation unnecessary"
     
@@ -437,9 +494,6 @@ const isBaseCase = (a, b, c, d, e, f, type) => {
 
 const plotgraph = (a, b, c, d, e, f, type) => {
 
-    alert(type);
-
-
 /* Determine the type of the conic given her coefficientes AX² + BXY + CY² + DX + EY + F = 0
     0 -> Empty
     1 -> Point  
@@ -452,6 +506,8 @@ const plotgraph = (a, b, c, d, e, f, type) => {
     8 -> Parabola
     9 -> Cirfunferemce
 */
+
+    alert(type);
     switch (type) {
         case 0: //empty
             break;
@@ -461,7 +517,6 @@ const plotgraph = (a, b, c, d, e, f, type) => {
         case 2: //2 retas identicas
             let isBase2 = isBaseCase(a, b, c, d, e, f)
             let isPerfSqr2 = isPerfctSquare(a, b, c, d, e, f)
-            console.log(a,b,c,d,e,f)
             if (isBase2) {
                 if (isBase2 == 1) { // x = -f/d
                     board.create('line',[[-(f/d),0],[-(f/d),1]]);
@@ -634,12 +689,18 @@ const plotgraph = (a, b, c, d, e, f, type) => {
                     else p = e/(4*a);
                     board.create('point',[0,p],{name:'F',size:0.1});
                 }
-               document.getElementById("Elements").innerText = string
+                document.getElementById("Elements").innerText = string
             }
             break;
     }
 }
-var board = JXG.JSXGraph.initBoard('jgxbox1', {boundingbox: [-20, 10, 20, -10], axis:true});
+
+var board = JXG.JSXGraph.initBoard('jxgbox1', {boundingbox: [-20, 10, 20, -10], axis:true});
+var board2 = JXG.JSXGraph.initBoard('jxgbox2', {boundingbox: [-20, 10, 20, -10], axis:true});
+
+
+
+
     
     // Pensei em fazer dois gráficos um pra plotar o gráfico inicial e outro pra plotar os
     // os roles pós translação etc e tals

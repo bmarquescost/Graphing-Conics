@@ -1,61 +1,108 @@
-body {
-    background-color: #edf3d9;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+html {
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-family: 'Roboto', sans-serif;
 }
 
-#Title{
-    font-family:'Courier New', Courier, monospace ;
-    color: #126e7a;
-    text-align: center;
+.hidden {
+  display: none;
+}
+
+body {
+  text-align: center;
+  /* background-color: #edf3d9; */
+  background-color: #ffffff;
+  margin: 0;
 }
 
 h2 {
-    font-family:'Courier New', Courier, monospace ;
-    color:#1d048b;
+  color: #0074d9;
 }
 
-h3,h1, h4, h5, h6 {
-    font-family:'Courier New', Courier, monospace ;
+h2.black {
+  color: #111111;
 }
 
-body {
-    text-align: center;
+.forms-container {
+  margin: auto;
+  padding: 5vh 5vw;
+  width: 40vw;
+  background-color: #0074d9;
+
+  display: flex;
+  justify-content: space-around;
+  align-content: space-around;
+  flex-wrap: wrap;
+  border-radius: 5px;
 }
 
-table {
-    margin-top: auto;
-    margin-left: auto;
-    margin-right: auto;            
-    border-spacing: 10px;
-    transition: box-shadow 0.5s ease-in, border-radius 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
-    box-shadow: 0px 0px 10px 2px  #000000;
-    border-radius: 10px
+.inputs {
+  padding-bottom: 30px;
 }
 
-table:hover{
-    border-radius: 20px;
-    box-shadow: 0px 0px 5px 0px #000000;
+input {
+  margin: 5px;
 }
 
-th {
-    width: 100px;
+button {
+  height: 30px;
+  width: 144px;
 }
 
-input{
-    transition: transform 0.2s ease-in;
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input:hover{
-    transform: scale(1.05);
-    border-radius: 10px;
-    box-shadow: 0px 0px 1px 0px #000000;
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
-canvas {
-    background-color: rgb(160, 214, 187);
-    width: 100%;
-    height: 32%; 
+.graph-container {
+  padding: 20px;
+  background-color: #0074d9;
+}
+.graphs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
 }
 
-#ElTitle {
-    color: maroon;
+
+
+.jxgbox {
+  display:flex;
+  min-width: 300px;
+  min-height:300px;
+  width: 35vw;
+  height: 35vw;
+  margin: 20px;
+  justify-content: center;
 }
+
+@media screen and (max-width: 760px) {
+  .graph-container {
+    flex-direction: column;
+    margin: 0;
+  }
+  .jxgbox {
+    width: 80vw;
+    height: 80vw;
+    margin: 20px auto;
+  }
+
+  .forms-container {
+    margin: 0;
+    padding: auto;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+}
+
