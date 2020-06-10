@@ -103,7 +103,6 @@ function determination(a, b, c, d, e, f) {
         type = 9
     }    
 
-    alert(type);
     return type
 }
 
@@ -334,6 +333,11 @@ function graph() {
     if (type > 5) findElements(type, a2,b2,c2,d2,e2,f2)
 }
 
+
+const createGraph = (a, b, c, d, e, f) => {
+
+    let board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], axis:true});
+}
 
 
 /*
