@@ -203,11 +203,13 @@ function auxPrintEquation(coef, add, string) {
     if (coef > 0) {
         temp = decToFrac(coef, false)
         if (string) string += "+ "
-        string += `${temp}${add}`    
+        if (temp != 1) string += `${temp}`    
+        string += `${add}`    
     }
     else if (coef < 0) {
         temp = decToFrac(-coef, false)
-        string += `- ${temp}${add}`    
+        if (temp != 1) string += `- ${temp}`    
+        string += `${add}`    
     }
 
     return string
@@ -235,6 +237,25 @@ function mmc(a,b,c,d,e,f) {
     let coefs = [a, b, c, d, e, f]
     coefs = coefs.map( coefieciente => (Math.abs(coefieciente)))
     coefs = coefs.sort((a, b) => a - b);
+
+    let i = 0
+    while (!coefs[i]) i++
+    let num = coefs[i]
+    
+    coefs = [a, b, c, d, e, f]
+
+    for (div = 2; num > 1; div++) {
+        if (num % div != 0) continue;
+        
+        while (num % div == 0) {
+            num /= div;         
+            if ((coefs[0] % div == 0) && (coefs[1] % div == 0) && (coefs[2] % div == 0) && (coefs[3] % div == 0) && (coefs[4] % div == 0) && (coefs[5] % div)== 0) {
+                for (let i = 0; i < 6; i++) coefs[i] /= div
+            }             
+        }
+    }
+
+    return coefs
 }
 
 function graph() {
@@ -295,6 +316,14 @@ function graph() {
                 trowOnError: false
             })
 
+            let coefs = mmc(a2,b2,c2,d2,e2,f2)
+            a2 = coefs[0]
+            b2 = coefs[1]
+            c2 = coefs[2]
+            d2 = coefs[3]
+            e2 = coefs[4]
+            f2 = coefs[5]
+
             let neweq = printEquation(a2,b2,c2,d2,e2,f2,"u","v")
             if (typeof(neweq) === "number") {neweq = neweq.toString();}
             katex.render(neweq, document.getElementById("firstEquation", {
@@ -320,6 +349,14 @@ function graph() {
             d2 = d*cos1 + e*sin1
             e2 = (-d)*sin1 + e*cos1
         }
+        
+        let coefs = mmc(a2,b2,c2,d2,e2,f2)
+        a2 = coefs[0]
+        b2 = coefs[1]
+        c2 = coefs[2]
+        d2 = coefs[3]
+        e2 = coefs[4]
+        f2 = coefs[5]
 
         let neweq2 = printEquation(a2,b2,c2,d2,e2,f2,"t","w")    
         if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
