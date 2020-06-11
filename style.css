@@ -22,29 +22,19 @@ body {
 
 .footer {
   margin-top: auto;
-  min-height: 200px;
+  height: 80px;
   width: 100vw;
   background-color: #001f3f;
   color: #ffffff;
-
   box-sizing: border-box;
 }
 
-.footer h2 {
-  color: #Ffffff;
+.footer p {
+  font-size: 13px;
 }
 
-.columns {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.column {
-  padding: 15px;
-}
 h2 {
-  color: #1d048b;
+  color: #001f3f;
 }
 
 h2.black {

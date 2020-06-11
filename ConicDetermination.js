@@ -488,6 +488,41 @@ const graph = () => {
     
     let flagFirstDet = det
     
+    if(b2 != 0) {
+        let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
+        let teta1 = (Math.atan(tanteta1))*(180/Math.PI)
+        if (teta1 < 0) teta1 += 90 
+
+        a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
+        b2 = 0
+        c2 = a + c - a2
+
+        let cos1 = Math.sqrt(1/(tanteta1**2 + 1))
+        let sin1 = Math.sqrt(1 - (cos1)**2)
+           
+        if (flagFirstDet == 0) {
+            d2 = d*cos1 + e*sin1
+            e2 = (-d)*sin1 + e*cos1
+        }
+
+        let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2)
+        a2 = coefs[0]
+        b2 = coefs[1]
+        c2 = coefs[2]
+        d2 = coefs[3]
+        e2 = coefs[4]
+        f2 = coefs[5]
+
+        let neweq2 = printEquation(a2,b2,c2,d2,e2,f2,"t","w")    
+        if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
+        katex.render(neweq2, document.getElementById("firstEquation", {
+            trowOnError: false
+        }))
+
+        document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)} °`
+    }
+    else document.getElementById("answerTetas").innerText = "Rotation unnecessary"
+    
     if((d != 0) || (e != 0)) {
         if (flagFirstDet == 0) {
             document.getElementById("answerHK").innerText = "It was not possible to make a translation of the coordenate system"
@@ -528,47 +563,12 @@ const graph = () => {
 
             let neweq = printEquation(a2,b2,c2,d2,e2,f2,"u","v")
             if (typeof(neweq) === "number") {neweq = neweq.toString();}
-            katex.render(neweq, document.getElementById("firstEquation", {
+            katex.render(neweq, document.getElementById("secondEquation", {
                 trowOnError: false
             }))
         }
     }
     else document.getElementById("answerHK").innerText = "Translation unnecessary"
-    
-    if(b2 != 0) {
-        let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
-        let teta1 = (Math.atan(tanteta1))*(180/Math.PI)
-        if (teta1 < 0) teta1 += 90 
-
-        a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
-        b2 = 0
-        c2 = a + c - a2
-
-        let cos1 = Math.sqrt(1/(tanteta1**2 + 1))
-        let sin1 = Math.sqrt(1 - (cos1)**2)
-           
-        if (flagFirstDet == 0) {
-            d2 = d*cos1 + e*sin1
-            e2 = (-d)*sin1 + e*cos1
-        }
-
-        let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2)
-        a2 = coefs[0]
-        b2 = coefs[1]
-        c2 = coefs[2]
-        d2 = coefs[3]
-        e2 = coefs[4]
-        f2 = coefs[5]
-
-        let neweq2 = printEquation(a2,b2,c2,d2,e2,f2,"t","w")    
-        if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
-        katex.render(neweq2, document.getElementById("secondEquation", {
-            trowOnError: false
-        }))
-
-        document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)} °`
-    }
-    else document.getElementById("answerTetas").innerText = "Rotation unnecessary"
     
     if (type > 5) findElements(type, a2,b2,c2,d2,e2,f2)
 
