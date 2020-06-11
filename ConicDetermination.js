@@ -491,11 +491,17 @@ const graph = () => {
     if(b2 != 0) {
         let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
         let teta1 = (Math.atan(tanteta1))*(180/Math.PI)
-        if (teta1 < 0) teta1 += 90 
 
         a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
         b2 = 0
         c2 = a + c - a2
+        
+        if (teta1 < 0) {
+            let temp = a2
+            a2 = c2
+            c2 = temp
+            teta1 += 90 
+        }
 
         let cos1 = Math.sqrt(1/(tanteta1**2 + 1))
         let sin1 = Math.sqrt(1 - (cos1)**2)
