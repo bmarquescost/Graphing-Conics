@@ -11,42 +11,60 @@
   <script type="text/javascript" charset="UTF-8" src="./static/jsxgraph.js"></script>
   <link rel="stylesheet" type="text/css" href="./static/jsxgraph.css" />
   <link rel="icon" href = "icon.png">
+
   <title>Conics</title>
 </head>
 <body>
-  <h1>CONIC SIMPLIFICATION</h1>
-  <h2>Inputs </h2>
-  <div class="forms-container">
-    <div class="inputs">
-      <input type="number" name="x²" placeholder="Insert x²" id="coefA"></input>  
-      <input type="number" name="xy" placeholder="Insert xy" id="coefB"></input>  
-      <input type="number" name="y²" placeholder="Insert y²" id="coefC"></input>  
-      <input type="number" name="x" placeholder="Insert x" id="coefD"></input>  
-      <input type="number" name="y" placeholder="Insert y" id="coefE"></input>  
-      <input type="number" name="independent" placeholder="Independent term" id="coefF"></input>  
+  <div class="full-container">
+    <h1>CONIC SIMPLIFICATION</h1>
+    <h2>Inputs </h2>
+    <div class="forms-container">
+      <div class="inputs">
+        <input type="number" name="x²" placeholder="Insert x²" id="coefA"></input>  
+        <input type="number" name="xy" placeholder="Insert xy" id="coefB"></input>  
+        <input type="number" name="y²" placeholder="Insert y²" id="coefC"></input>  
+        <input type="number" name="x" placeholder="Insert x" id="coefD"></input>  
+        <input type="number" name="y" placeholder="Insert y" id="coefE"></input>  
+        <input type="number" name="independent" placeholder="Independent term" id="coefF"></input>  
+      </div>
+      <button type="submit" onclick="init()">Calculate</button>
     </div>
-    <button type="submit" onclick="init()">Calculate</button>
-  </div>
-  <div class="result-container hidden">
-    <h3 id="equation"></h3>
-    <div class="graphs1">
-      <div id="jxgbox1" class="jxgbox" style="margin:auto; width:1000px; height:500px; justify-content: center;"></div>
+    <div class="result-container hidden">
+      <h3 id="equation"></h3>
+      <div class="graphs1">
+        <div id="jxgbox1" class="jxgbox"></div>
+      </div>
+      <h2>TRANSLATION</h2>
+      <h3 id="answerHK"></h3>
+      <h3 id="firstEquation"></h3>
+      <h2>ROTATION</h2>
+      <h3 id="answerTetas"></h3>
+      <h3 id="secondEquation"></h3>
+      <h2>TYPE OF CONIC</h2>
+      <h3 id="Type"></h3>
+      <h3 id="ElTitle"></h3>
+      <h3 id="Elements"></h3>
     </div>
-    <h2>TRANSLATION</h2>
-    <h3 id="answerHK"></h3>
-    <h3 id="firstEquation"></h3>
-    <h2>ROTATION</h2>
-    <h3 id="answerTetas"></h3>
-    <h3 id="secondEquation"></h3>
-    <h2>TYPE OF CONIC</h2>
-    <h3 id="Type"></h3>
-    <h3 id="ElTitle"></h3>
-    <h3 id="Elements"></h3>
-  </div>
-  <div class="graph-container hidden">
-    <h2 class="black">PLOTTED GRAPHS</h2>
-    <div class="graphs2">
-      <div id="jxgbox2" class="jxgbox" style="margin:auto; width:1000px; height:500px; justify-content: center;"></div>
+    <div class="graph-container hidden">
+      <h2 class="black">PLOTTED GRAPHS</h2>
+      <div class="graphs2">
+        <div id="jxgbox2" class="jxgbox"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <h2>Feito por:</h2>
+      <div class=columns>
+        <div class="column">
+          <p>Bernardo Marques</p>
+          <p>Diogenes Silva</p>
+          <p>Guilherme Rios</p>
+        </div>
+        <div class="column">
+          <p>Rodrigo Assaf</p>
+          <p>João Marinho</p>
+        </div>
+      </div>
+      </ul>
     </div>
   </div>
 

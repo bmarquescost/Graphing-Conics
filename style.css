@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap'); */
 
 html {
   font-family: 'Courier New', Courier, monospace; 
@@ -10,10 +10,39 @@ html {
 
 body {
   text-align: center;
-  background-color: #edf9d9; 
+  /* background-color: #edf9d9;  */
   margin: 0;
 }
 
+.full-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  margin-top: auto;
+  min-height: 200px;
+  width: 100vw;
+  background-color: #001f3f;
+  color: #ffffff;
+
+  box-sizing: border-box;
+}
+
+.footer h2 {
+  color: #Ffffff;
+}
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.column {
+  padding: 15px;
+}
 h2 {
   color: #1d048b;
 }
@@ -41,7 +70,7 @@ h2.black {
 }
 
 input {
-  margin: 2px;
+  margin: 3px;
   transition: transform 0.1s ease-in;
   border-radius: 7px;
 }
@@ -82,7 +111,10 @@ input[type=number] {
 .graph-container {
   padding: 20px;
   background-color: #0074d9;
+  padding: 0px;
+  padding-bottom: 20px;
 }
+
 .graphs {
   display: flex;
   flex-direction: row;
@@ -94,9 +126,9 @@ input[type=number] {
   display:flex;
   min-width: 300px;
   min-height:300px;
-  width: 35vw;
-  height: 35vw;
-  margin: 20px;
+  width: 60vw;
+  height: 30vw;
+  margin: auto;
   justify-content: center;
 }
 
