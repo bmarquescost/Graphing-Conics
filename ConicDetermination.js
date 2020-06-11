@@ -844,4 +844,4 @@ const init = () => {
     var board2 = JXG.JSXGraph.initBoard('jxgbox2', {boundingbox: [-10, 5, 10, -5], axis:true, grid:true});
     boards = [board,board2];
     graph()
-}
+} 
