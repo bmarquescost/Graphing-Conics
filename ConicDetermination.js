@@ -312,12 +312,12 @@ const findElements = (type, a, b, c, d, e, f) => {
         if (!a) {
             if (c>0) p = -d/(4*c);
             else p = d/(4*c);
-            string = `P = <span id="p"></span>, and the focus is at F  (<span id="p2"></span>,0)`             
+            string = `P = <span id="p"></span>, and the focus is at F (<span id="p2"></span>,0)`             
         }
         if (!c) {
             if (a>0) p = -e/(4*a);
             else p = e/(4*a);
-            string += `P = <span id="p"></span>, and the focus is at F (0, <span id="p2"></span>)` 
+            string += `P = <span id="p"></span>, and the focus is at F (0,<span id="p2"></span>)` 
         }
 
         // Renderizando Resultado
