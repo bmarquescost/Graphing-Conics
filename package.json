@@ -1,7 +1,7 @@
 {
   "name": "graphing-conics",
   "version": "1.0.0",
-  "description": "Projeto de Conicas para o Farid",
+  "description": "Projeto de Cônicas para o Farid",
   "main": "ConicDetermination.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

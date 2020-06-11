@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 html {
-  /* font-family: 'Courier New', Courier, monospace; */
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Courier New', Courier, monospace; 
 }
 
 .hidden {
@@ -11,13 +10,12 @@ html {
 
 body {
   text-align: center;
-  /* background-color: #edf3d9; */
-  background-color: #ffffff;
+  background-color: #edf9d9; 
   margin: 0;
 }
 
 h2 {
-  color: #0074d9;
+  color: #1d048b;
 }
 
 h2.black {
@@ -26,30 +24,48 @@ h2.black {
 
 .forms-container {
   margin: auto;
-  padding: 5vh 5vw;
-  width: 40vw;
+  padding: 1vh 1vw;
+  width: 20vw;
   background-color: #0074d9;
 
-  display: flex;
-  justify-content: space-around;
-  align-content: space-around;
-  flex-wrap: wrap;
+  box-shadow: 0px 0px 2px 2px  #777770;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
 }
 
 .inputs {
-  padding-bottom: 30px;
+  padding-bottom: 5px;
 }
 
 input {
-  margin: 5px;
+  margin: 2px;
+  transition: transform 0.1s ease-in;
+  border-radius: 7px;
+}
+
+input:hover{
+    transform: scale(1.02);
+    box-shadow: 0px 0px 1px 0px #777770;
 }
 
 button {
   height: 30px;
   width: 144px;
+  transition: transform 0.1s ease-in;
+  border-radius: 7px;
 }
 
+button:hover{
+    transform: scale(1.02);
+    box-shadow: 0px 0px 1px 0px #777770;
+}
+
+#ElTitle {
+    color: maroon;
+}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -72,10 +88,7 @@ input[type=number] {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-
 }
-
-
 
 .jxgbox {
   display:flex;
@@ -97,7 +110,6 @@ input[type=number] {
     height: 80vw;
     margin: 20px auto;
   }
-
   .forms-container {
     margin: 0;
     padding: auto;
@@ -105,4 +117,3 @@ input[type=number] {
     box-sizing: border-box;
   }
 }
-

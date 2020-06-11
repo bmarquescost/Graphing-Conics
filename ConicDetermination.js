@@ -20,10 +20,9 @@ Referências utilizadas para realizar as considerações matemáticas neste prog
     
 */
 
-   
 // Função que realiza a conversão de um valor float para uma fração para facilitar a visualização
-function decToFrac(value, donly = true){
-    let tolerance = 1.0E-10; 
+const decToFrac = (value, donly = true) => {
+    let tolerance = 1.0E-5; 
     let h1 = 1;
     let h2 = 0;
     let k1 = 0;
@@ -32,7 +31,7 @@ function decToFrac(value, donly = true){
     let i;
 
     let string = "";
-    
+
     // Caso inteiro, finaliza o script
     if (parseInt(value) == value){
         return value.toString();
@@ -44,6 +43,7 @@ function decToFrac(value, donly = true){
     }
     let square = value*value
     if (Math.abs(Math.round(square) - square) < 0.01) {
+        if (!Math.round(square)) return "0"
         string +=`\\sqrt{${Math.round(square)}}`
         return string;
     }
@@ -52,7 +52,6 @@ function decToFrac(value, donly = true){
         i = parseFloat(value);
         value -= i;
     }
-    
     
     let b = value;
 
@@ -74,7 +73,6 @@ function decToFrac(value, donly = true){
    return resultadoFracao;
 }
 
-
 /*
     Determina o tipo de conica dado seus coeficientes  A,B,C,D,E,F
             AX² + BXY + CY² + DX + EY + F = 0
@@ -90,7 +88,7 @@ function decToFrac(value, donly = true){
     8 -> Parabola
     9 -> Cirfunferemce  
 */
-function determination(a, b, c, d, e, f){
+const determination = (a, b, c, d, e, f) => {
     /* 
         Calculando o determinante da matriz simétrica reduzida
         | A   B/2 |  
@@ -164,60 +162,58 @@ function determination(a, b, c, d, e, f){
 }
 
 /*
-    Função que realiaz o calculdo dos elementos do gráfico:
-    ELIPSE --> FOCOS, VERTICES, EXCENTRICIDADE
-    HIPERBOLE --> FOCOS, VERTICES, EXCENTRICIDADE
-    PARABOLA --> FOCO, PARÂMTRO P
+    Função que realiaza o cálculo dos elementos do gráfico:
+    ELIPSE         --> FOCOS, VERTICES, EXCENTRICIDADE
+    HIPERBOLE      --> FOCOS, VERTICES, EXCENTRICIDADE
+    PARABOLA       --> FOCO, PARÂMTRO P
     CIRCUNFERÊNCIA --> RAIO 
 */
-function findElements(type, a, b, c, d, e, f){
-    
-    // Sabemos que os pontos do vertice, foco e centro serão sempre posicionados em um eixo, ou seja (X,0) ou (0,Y), devido os
-    // processos de rotação e translação.
+const findElements = (type, a, b, c, d, e, f) => {
+    // Sabemos que os pontos do vertice, foco e centro serão sempre posicionados
+    // em um eixo, ou seja (X,0) ou (0,Y), devido os processos de rotação e translação.
 
-    let f1, f2          // Variáveis correspondentes aos focos F1 e F2
-    let exc             // Variável correspondente à excentricidade
-    let v1, v2          // Variáveis correspondentes aos vértices do maior eixo (considerando caso da elipse)
-    let b1,b2           // Variáveis correspondentes aos vértices do menor eixo (considernaod caso da elipse)
-    let string = ""     // Cadeia de caracteres que irá ser retornada para o HTML
-    let p               // Variável do parâmetro da parábola
-    let center          // Variável correspondente ao centro
-    let radiun          // Valor do raio da circunferência
-
-    document.getElementById("ElTitle").innerText = "Elements"  
+    let f1, f2       // Variáveis correspondentes aos focos F1 e F2
+    let exc          // Variável correspondente à excentricidade
+    let v1, v2       // Variáveis correspondentes aos vértices do maior eixo (considerando caso da elipse)
+    let b1,b2        // Variáveis correspondentes aos vértices do menor eixo (considernaod caso da elipse)
+    let string = ""  // Cadeia de caracteres que irá ser retornada para o HTML
+    let p            // Variável do parâmetro da parábola
+    let center       // Variável correspondente ao centro
+    let radiun       // Valor do raio da circunferência
         
+    document.getElementById("ElTitle").innerText = "Elements"  
     // Ellipse
     if (type == 6) {
-
         /* Devemos encontrar qual o maior eixo da elipse, identificado qual valor da equação do tipo
             X²/ a² + Y²/ b² = 1  ==> A elipse possui seu maior eixo no eixo X
                 ou
             X²/ b² + Y²/ a² = 1 ==> A elipse possui seu maior eixo no eixo Y
          
-            Lembrando que   a --> valor do semi-eixo maior (distância do centro da elipse até um de seus vértices A)
-                            b --> valor do semi-eixo menor (distância do centro da elipse até um de seus vértices B)
+            Lembrando que   
+                    a --> valor do semi-eixo maior (distância do centro da elipse até um de seus vértices A)
+                    b --> valor do semi-eixo menor (distância do centro da elipse até um de seus vértices B)
             Sabemos ainda pelo teorema de pitágoras:
-                            a² = b² + c²
-                            c --> valor da distância focal (distancia do centro da elipse até um de seus focos F)
+                    a² = b² + c²
+                    c --> valor da distância focal (distancia do centro da elipse até um de seus focos F)
             Por fim, a excentricidade corresponde ao valor da divisão 
-                            e = c/a
+                    e = c/a
         */ 
         v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c)) 
         v2 = -v1
-        if (a < c) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>, 0).`
-        else string += `First Vertice (A1): (0,<span id="v1"></span>) Second Vertice (A2): (0,<span id="v2"></span>).`
+        if (a < c) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>, 0)`
+        else string += `First Vertice (A1): (0,<span id="v1"></span>) Second Vertice (A2): (0,<span id="v2"></span>)`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
 
         b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a))
         b2 = -b1
-        if (a < c) string += `Third Vertice  (B1): (0, <span id="b1"></span>) . <br>Fourth Vertice (B2): (0, <span id="b2"></span>).`
-        else string += `Third Vertice (B1): (<span id="b1"></span>, 0) . Fourth Vertice (B2): (<span id="b2"></span>, 0).`
+        if (a < c) string += `Third Vertice  (B1): (0, <span id="b1"></span>) . <br>Fourth Vertice (B2): (0, <span id="b2"></span>)`
+        else string += `Third Vertice (B1): (<span id="b1"></span>, 0) . Fourth Vertice (B2): (<span id="b2"></span>, 0)`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
 
         f1 = Math.sqrt((v1**2) - (b1**2))
         f2 = -f1
-        if (a < c) string += `First Focus (F1): (<span id="f1"></span>, 0) . <br>Second Focus (F2): (<span id="f2"></span>, 0).`
-        else string += `First Focus (F1): (0,<span id="f1"></span>) . <br>Second Focus (F2): (0, <span id="f2"></span>).`
+        if (a < c) string += `First Focus (F1): (<span id="f1"></span>, 0) . <br>Second Focus (F2): (<span id="f2"></span>, 0)`
+        else string += `First Focus (F1): (0,<span id="f1"></span>) . <br>Second Focus (F2): (0, <span id="f2"></span>)`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
         string += `Excentricite : <span id="excentricite"></span>`
         exc = f1/v1;
@@ -225,7 +221,6 @@ function findElements(type, a, b, c, d, e, f){
         
         // Renderizando resultado
         document.getElementById("Elements").innerHTML = string;
-
         katex.render((decToFrac(v1, false)), document.getElementById("v1"), {
             trowOnError: false
         })
@@ -248,7 +243,6 @@ function findElements(type, a, b, c, d, e, f){
             trowOnError: false
         })
     }
-
     // Hyperbola
     else if (type == 7) {
          /* Devemos encontrar em qual eixo X e Y se encontra o eixo (que contêm os focos e vértices da hiperbole)
@@ -270,14 +264,14 @@ function findElements(type, a, b, c, d, e, f){
 
         v1 = Math.sqrt(resultado);
         v2 = -v1   
-        if (a > 0) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>,0).`
-        else string += `First Vertice (A1): (0,<span id="v1"></span>) <br>Second Vertice (A2): (0,<span id="v2"></span>).`
+        if (a > 0) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>,0)`
+        else string += `First Vertice (A1): (0,<span id="v1"></span>) <br>Second Vertice (A2): (0,<span id="v2"></span>)`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
         
         f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2)
         f2 = -f1
-        if (a > 0) string += `First Focus (F1): (<span id="f1"></span>,0) <br>Second Focus (F2): (<span id="f2"></span>,0).`
-        else string += `First Focus (F1): (0<span id="f1"></span> <br>Second Focus (F2): (0,<span id="f2"></span>).`
+        if (a > 0) string += `First Focus (F1): (<span id="f1"></span>,0) <br>Second Focus (F2): (<span id="f2"></span>,0)`
+        else string += `First Focus (F1): (0<span id="f1"></span> <br>Second Focus (F2): (0,<span id="f2"></span>)`
         string += "<br>---------------------------------------------------------------------------------------------------<br>"
         string += `Excentricite : <span id="excentricite"></span>`
         exc = f1/v1;
@@ -301,7 +295,6 @@ function findElements(type, a, b, c, d, e, f){
             trowOnError: false
         })
     }
-
     // Parabola
     else if (type == 8) {
         /*
@@ -333,7 +326,6 @@ function findElements(type, a, b, c, d, e, f){
             trowOnError: false
         })
     }
-
     // Circumference
     else if (type == 9){
         /* 
@@ -362,34 +354,36 @@ function findElements(type, a, b, c, d, e, f){
     Função que realiza o procesos de manipular a string para que seja dado uma equação resultante adequada
     Recebe o valor do coeficiente, a cadeia de caracteres que irá adicionar e qual string será manipulada
 */
-function auxPrintEquation(coef, add, string){
-
+const auxPrintEquation = (coef, add, string) => {
     let temp = "" // Valor correspondente ao valor do coeficiente temporário interno a função
-
     /*
-        Caso o coeficiente do termo seja maior que zero. iremos adicionar o símbolo '+' caso não seja a primeira ocorrência,
+        Caso o coeficiente do termo seja positivo, iremos adicionar o símbolo '+' (exceto na primeira ocorrência),
         ou seja, a string já deve estar preenchida e não nula.
         Acrescenta apenas o elemento (X² por exemplo) caso o coeficiente seja 1 (para não acrescentar 1X², sendo desnecessário)
     */
     if (coef > 0) {
         temp = decToFrac(coef, false)
-        if (string) string += "+ "
-        if (temp != 1) string += `${temp}`
-        else
-            if (add == " ") string += `${temp}`    
-        string += `${add}`    
+        if (temp != "0") {    
+            if (string) string += "+ "
+            if (temp != 1) string += `${temp}`
+            else
+                if (add == " ") string += `${temp}`    
+            string += `${add}`    
+        }
     }
     /*
         Para casos negativos, teremos sempre o acrescimo do símbolo '-'
         Caso o valor do coeficiente seja -1, teremos o acrescimo apenas do simbolo negativo.
     */
     else if (coef < 0) {
-        temp = decToFrac(-coef, false)
-        string += "- "
-        if (temp != 1) string += `${temp}`
-        else 
-            if (add == " ") string += `${temp}`    
-        string += `${add}`    
+        if (temp != "0") {
+            temp = decToFrac(-coef, false)
+            string += "- "
+            if (temp != 1) string += `${temp}`
+            else 
+                if (add == " ") string += `${temp}`    
+            string += `${add}`    
+        }
     }
     return string
 }
@@ -399,7 +393,7 @@ function auxPrintEquation(coef, add, string){
     sendo o sistema de coordenadas (X,Y) alterado para outros sistemas, por exemplo (U,V), caso sejam realizadas translações
     e/ou rotações
 */
-function printEquation(a, b, c, d, e, f, x, y){
+const printEquation = (a, b, c, d, e, f, x, y) => {
     let string = ""
 
     string = auxPrintEquation(a, `${x}^2 `, string)
@@ -416,13 +410,9 @@ function printEquation(a, b, c, d, e, f, x, y){
 }
 
 /*
-    Função que calcula o Máximo Divisor Comum dos valores dos coeficientes resultantes finais da equação, após serem 
-    encerrados os processos de translação e rotação
-    É utilizado para que seja realizado a divisão pelo máximo divisor comum entre os coeficientes, resultando em uma equação final
-    simplificada.
+    Função que simplifica os coefientes da equação pelo máximo divisor comum
 */
-function mdc(a,b,c,d,e,f){
-
+const simplifyEquation = (a,b,c,d,e,f) => {
     let coefs = [a, b, c, d, e, f]
     for (let i = 0; i < 6; i++) {
         if (parseInt(coefs[i]) != coefs[i]) return coefs
@@ -448,8 +438,7 @@ function mdc(a,b,c,d,e,f){
     return coefs
 }
 
-function graph(){
-
+const graph = () => {
     // Mostrando todos os resultados, e zerando anteriores
     hiddenElements = document.getElementsByClassName("hidden");
     hiddenElements[0].style.display = "block"
@@ -471,8 +460,8 @@ function graph(){
     
     // Utilizando a função para retornar qual o tipo da cônica formada partir dos coeficientes submetidos
     let type = determination(a,b,c,d,e,f)
+    plotgraph(a,b,c,d,e,f, type, 0, false)
     
-    plotgraph(a,b,c,d,e,f, type, 0)
     //  Fazendo a primeira impressão da equação formada utilizando os coeficientes obtidos
     let equation = printEquation(a,b,c,d,e,f,"x","y")
 
@@ -483,8 +472,6 @@ function graph(){
             trowOnError: false
         }))
     }
-    
-    
 
     let a2 = a
     let b2 = b
@@ -528,7 +515,7 @@ function graph(){
                 trowOnError: false
             })
 
-            let coefs = mdc(a2,b2,c2,d2,e2,f2)
+            let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2)
             a2 = coefs[0]
             b2 = coefs[1]
             c2 = coefs[2]
@@ -547,13 +534,13 @@ function graph(){
     
     if(b2 != 0) {
         let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
-        let teta1 = Math.abs((Math.atan(tanteta1))*(180/Math.PI)) /////////////////////////AJEITAR DETALHE DO ANGULO
-        let teta1rad = Math.atan(tanteta1)
+        let teta1 = (Math.atan(tanteta1))*(180/Math.PI)
+        if (teta1 < 0) teta1 += 90 
 
         a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
         b2 = 0
         c2 = a + c - a2
-       
+
         let cos1 = Math.sqrt(1/(tanteta1**2 + 1))
         let sin1 = Math.sqrt(1 - (cos1)**2)
            
@@ -561,8 +548,8 @@ function graph(){
             d2 = d*cos1 + e*sin1
             e2 = (-d)*sin1 + e*cos1
         }
-        
-        let coefs = mdc(a2,b2,c2,d2,e2,f2)
+
+        let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2)
         a2 = coefs[0]
         b2 = coefs[1]
         c2 = coefs[2]
@@ -576,23 +563,21 @@ function graph(){
             trowOnError: false
         }))
 
-        document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)}`
+        document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)} °`
     }
     else document.getElementById("answerTetas").innerText = "Rotation unnecessary"
     
     if (type > 5) findElements(type, a2,b2,c2,d2,e2,f2)
 
-    plotgraph(a2, b2, c2, d2, e2, f2, type, 1);
+    plotgraph(a2, b2, c2, d2, e2, f2, type, 1, true);
 
 }
-
-
 
 /*
     Função que verifica se a equação fornecida pode ser considerada a diferença entre dois quadrado:
                 X² - Y² = 0
     podemos realizar a manipulação algébrica para chegar em
-                (X + Y)(X - Y) = 0
+            (X + Y)(X - Y) = 0
     o que corresponderia, neste caso específico, a duas retas concorrentes r1: X = -Y  e r2: X = Y
 */
 const isDiffSquares = (a, b, c, d, e, f, type) => {
@@ -607,7 +592,7 @@ const isDiffSquares = (a, b, c, d, e, f, type) => {
     Função utilizada para conferir se a equação obtida pode ser representada por um quadrado perfeito:
             X² + 2XY + Y² = 0
     fazendo manipualções algébricas, encontraríamos
-            (X + Y)² = 0
+               (X + Y)² = 0
     o que corresponderia, neste caso específico, a duas retas paralelas idênticas r1 = r : X = -Y
 */
 const isPerfctSquare = (a, b, c, d, e, f, type) => {
@@ -633,55 +618,50 @@ const isPerfctSquare = (a, b, c, d, e, f, type) => {
     uma constante
 */
 const isBaseCase = (a, b, c, d, e, f, type) => {
-    
     if (!a && !b && !c && d && !e) return 1 //Caso x = k = -f/d
     if (a && !b && !c && !d && !e) return 2 //Caso x² = 0
     if (!a && !b && !c && !d && e) return 3 //Caso y = k = -f/e
     if (!a && !b && c && !d && !e) return 4 //Caso y² = 0
 }
 
-function plotgraph(a, b, c, d, e, f, type, boardNumber){
-
-/* Determine the type of the conic given her coefficientes AX² + BXY + CY² + DX + EY + F = 0
-    0 -> Empty
-    1 -> Point  
-    2 -> Two Identical Lines
-    3 -> Pair of parallel lines (non identical)
-    4 -> Pair of intersecting lines
-    5 -> Line
-    6 -> Ellipse
-    7 -> Hyperbola
-    8 -> Parabola
-    9 -> Cirfunferemce
-*/
-
+const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
     let board = boards[boardNumber];
-    
+    if (!boardNumber) {
+        board.create('arrow',[[0,0],[0,1]],{strokeWidth:2,strokeColor:'purple'});
+        board.create('text',[0.1,0.4,'x']);
+        board.create('arrow',[[0,0],[1,0]],{strokeWidth:2, strokeColor:'orange'});
+        board.create('text',[0.4,0.1,'y']);
+    } 
+    else {
+        board.create('arrow',[[0,0],[0,1]],{strokeWidth:2,strokeColor:'purple'});
+        board.create('text',[0.1,0.4,'t']);
+        board.create('arrow',[[0,0],[1,0]],{strokeWidth:2, strokeColor:'orange'});
+        board.create('text',[0.4,0.1,'w']);
+    }
 
     switch (type) {
-
-        case 0: // CONJUNTO VAZIO
+        case 0: // Conjunto vázio
             break;
 
-        case 1:
-            board.create('point', [0, 0])
+        case 1: // Ponto
+            board.create('point', [0,0], {fixed:true})
             break;
 
-        case 2: // PAR DE RETAS PARALELAS IDENTICAS
+        case 2: // Par de retas paralelas idênticas
             let isBase2 = isBaseCase(a, b, c, d, e, f)
             let isPerfSqr2 = isPerfctSquare(a, b, c, d, e, f)
             if (isBase2) {
                 if (isBase2 == 1) { // x = -f/d
                     board.create('line',[[-(f/d),0],[-(f/d),1]]);
                 }
-                else if (isBase2 == 2) { //x² = 0 ou x = -f/a
-                    board.create('line',[[-(f/a),0],[-(f/a),1]]);
+                else if (isBase2 == 2) { //x² = 0
+                    board.create('line',[[0,0],[0,1]]);
                 }
                 else if (isBase2 == 3) { // y = -f/e
                     board.create('line',[[0,-(f/e)],[1,-(f/e)]]);
                 }
-                else { //y² = 0 ou y = -f/c
-                    board.create('line',[[0,-(f/c)],[1,-(f/c)]]);
+                else { //y² = 0
+                    board.create('line',[[0,0],[1,0]]);
                 }
             }
             else if (isPerfSqr2) {
@@ -704,21 +684,23 @@ function plotgraph(a, b, c, d, e, f, type, boardNumber){
             }
             break;
 
-        case 3: // CASO DE RETAS PARALELAS DISTINTAS
+        case 3: // Caso de retas paralelas distintas
             let isBase3 = isBaseCase(a, b, c, d, e, f)
             let isPerfSqr3 = isPerfctSquare(a, b, c, d, e, f)
             if (isBase3) {
-                if (isBase3 == 1) { // x = -f/d
-                    board.create('line',[[-(f/d),0],[-(f/d),1]]);
+                if (isBase3 == 2) { //x² = -f/a
+                    yNegativeSqrt = -(Math.sqrt(-f)/a)
+                    yPositiveSqrt = (Math.sqrt(-f)/a)
+                
+                    board.create('line',[[0,yNegativeSqrt],[1,yNegativeSqrt]]);
+                    board.create('line',[[0,yPositiveSqrt],[1,yPositiveSqrt]]); 
                 }
-                else if (isBase3 == 2) { //x² = 0 ou x = -f/a
-                    board.create('line',[[-(f/a),0],[-(f/a),1]]);
-                }
-                else if (isBase3 == 3) { // y = -f/e
-                    board.create('line',[[0,-(f/e)],[1,-(f/e)]]);
-                }
-                else { //y² = 0 ou y = -f/c
-                    board.create('line',[[0,-(f/c)],[1,-(f/c)]]);
+                else { //y² = -f/c
+                    xNegativeSqrt = -(Math.sqrt(-f)/c)
+                    xPositiveSqrt = (Math.sqrt(-f)/c)
+                
+                    board.create('line',[[0,xNegativeSqrt],[1,xNegativeSqrt]]);
+                    board.create('line',[[0,xPositiveSqrt],[1,xPositiveSqrt]]); 
                 }
             }
             else if (isPerfSqr3) {
@@ -727,7 +709,6 @@ function plotgraph(a, b, c, d, e, f, type, boardNumber){
                     y0PositiveSqrt = (Math.sqrt(-f)/c)
                     y1NegativeSqrt = -(a + Math.sqrt(-f))/c
                     y1PositiveSqrt = (Math.sqrt(-f) - a)/c
-
                 
                     board.create('line',[[0,y0NegativeSqrt],[1,y1NegativeSqrt]]);
                     board.create('line',[[0,y0PositiveSqrt],[1,y1PositiveSqrt]]); 
@@ -744,7 +725,7 @@ function plotgraph(a, b, c, d, e, f, type, boardNumber){
             }
             break;
 
-        case 4: // PAR DE RETAS CONCORRENTES
+        case 4: // Par de retas concorrentes
             let isDiffSqrt = isDiffSquares(a,b,c,d,e,f)
             if (isDiffSqrt) { // ax² - cy² = (√(a)x + √(c)y) * (√(a)x + √(c)y) = 0
                 y1SumCase = -Math.sqrt(Math.abs(a/c))
@@ -755,7 +736,7 @@ function plotgraph(a, b, c, d, e, f, type, boardNumber){
             }
             break;
 
-        case 5: // RETA ÚNICA
+        case 5: // Reta única
             let y0 = f
             let y1 = a + b + c + d + e + f
             board.create('line',[[0,y0],[1,y1]]);
@@ -765,90 +746,99 @@ function plotgraph(a, b, c, d, e, f, type, boardNumber){
         // e separar entre outros casos internamente para encontrar seus elementos
         default:
             board.create('conic', [a, c, f, b/2, d/2, e/2]);
-            
-            // Sendo o caso de uma Elípse
-            if (type == 6) {
-                v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c))
-                v2 = -v1
-                if (a < c) {
-                    board.create('point',[v1,0],{name:'A1',size:0.1});
-                    board.create('point',[v2,0],{name:'A2',size:0.1});
-                }
-                else {
-                    board.create('point',[0,v1],{name:'A1',size:0.1});
-                    board.create('point',[0,v2],{name:'A2',size:0.1});
-                }
+            if (printPoints) {
+                // Elípse
+                if (type == 6) {
+                    v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c))
+                    v2 = -v1
+                    if (a < c) {
+                        board.create('point',[v1,0],{name:'A1',size:0.1,fixed:true});
+                        board.create('point',[v2,0],{name:'A2',size:0.1,fixed:true});
+                    }
+                    else {
+                        board.create('point',[0,v1],{name:'A1',size:0.1,fixed:true});
+                        board.create('point',[0,v2],{name:'A2',size:0.1,fixed:true});
+                    }
 
-                b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a))
-                b2 = -b1
-                if (a < c) {
-                    board.create('point',[0,b1],{name:'B1',size:0.1});
-                    board.create('point',[0,b2],{name:'B2',size:0.1});
-                }
-                else {
-                    board.create('point',[b1,0],{name:'B1',size:0.1});
-                    board.create('point',[b2,0],{name:'B2',size:0.1});
-                }
+                    b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a))
+                    b2 = -b1
+                    if (a < c) {
+                        board.create('point',[0,b1],{name:'B1',size:0.1,fixed:true});
+                        board.create('point',[0,b2],{name:'B2',size:0.1,fixed:true});
+                    }
+                    else {
+                        board.create('point',[b1,0],{name:'B1',size:0.1,fixed:true});
+                        board.create('point',[b2,0],{name:'B2',size:0.1,fixed:true});
+                    }
 
-                f1 = Math.sqrt((v1**2) - (b1**2))
-                f2 = -f1
-                if (a < c) {
-                    board.create('point',[f1,0],{name:'F1',size:0.1});
-                    board.create('point',[f2,0],{name:'F2',size:0.1});
+                    f1 = Math.sqrt((v1**2) - (b1**2))
+                    f2 = -f1
+                    if (a < c) {
+                        board.create('point',[f1,0],{name:'F1',size:0.1,fixed:true});
+                        board.create('point',[f2,0],{name:'F2',size:0.1,fixed:true});
+                    }
+                    else {
+                        board.create('point',[0,f1],{name:'F1',size:0.1,fixed:true});
+                        board.create('point',[0,f2],{name:'F2',size:0.1,fixed:true});
+                    }
                 }
-                else {
-                    board.create('point',[0,f1],{name:'F1',size:0.1});
-                    board.create('point',[0,f2],{name:'F2',size:0.1});
+                // Hipérbole
+                else if (type == 7) {
+                    let resultado = (-f/a > 0) ? (-f/a):(f/c);
+                    resultado = Math.abs(resultado);
+                    console.log(resultado);
+                    v1 = Math.sqrt(resultado);
+                    v2 = -v1
+                    if (a < c) {
+                        board.create('point',[v1,0],{name:'A1',size:0.1,fixed:true});
+                        board.create('point',[v2,0],{name:'A2',size:0.1,fixed:true});
+                    }
+                    else {
+                        board.create('point',[0,v1],{name:'A1',size:0.1,fixed:true});
+                        board.create('point',[0,v2],{name:'A2',size:0.1,fixed:true});
+                    }   
+                    
+                    f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2)
+                    f2 = -f1
+                    if (a < c) {
+                        board.create('point',[f1,0],{name:'F1',size:0.1,fixed:true});
+                        board.create('point',[f2,0],{name:'F2',size:0.1,fixed:true});
+                    }
+                    else {
+                        board.create('point',[0,f1],{name:'F1',size:0.1,fixed:true});
+                        board.create('point',[0,f2],{name:'F2',size:0.1,fixed:true});
+                    }
                 }
-            }
+                // Parabola
+                else if (type == 8) {
+                    if (!a) {
+                        if (c>0) p = -d/(4*c);
+                        else p = d/(4*c);
+                        board.create('point',[p,0],{name:'F',size:0.1,fixed:true});
+                    }
+                    if (!c) {
+                        if (a>0) p = -e/(4*a);
+                        else p = e/(4*a);
+                        board.create('point',[0,p],{name:'F',size:0.1,fixed:true});
+                    }
+                }
+                // Cincunferência
+                else if (type == 9) {
+                    let y2 = 
+                    board.create('point',[0,0],{name:'Center',size:0.1,fixed:true});
 
-            // Considerando o caso de uma Hipérbole
-            else if (type == 7) {
-                let resultado = (-f/a > 0) ? (-f/a):(f/c);
-                resultado = Math.abs(resultado);
-                console.log(resultado);
-                v1 = Math.sqrt(resultado);
-                v2 = -v1
-                if (a < c) {
-                    board.create('point',[v1,0],{name:'A1',size:0.1});
-                    board.create('point',[v2,0],{name:'A2',size:0.1});
+                    board.create('segment',[0,0],{name:'Center',size:0.1});
                 }
-                else {
-                    board.create('point',[0,v1],{name:'A1',size:0.1});
-                    board.create('point',[0,v2],{name:'A2',size:0.1});
-                }   
-                
-                f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2)
-                f2 = -f1
-                if (a < c) {
-                    board.create('point',[f1,0],{name:'F1',size:0.1});
-                    board.create('point',[f2,0],{name:'F2',size:0.1});
-                }
-                else {
-                    board.create('point',[0,f1],{name:'F1',size:0.1});
-                    board.create('point',[0,f2],{name:'F2',size:0.1});
-                }
-            }
-            // Parabola
-            else if (type == 8) {
-                if (!a) {
-                    if (c>0) p = -d/(4*c);
-                    else p = d/(4*c);
-                    board.create('point',[p,0],{name:'F',size:0.1});
-                }
-                if (!c) {
-                    if (a>0) p = -e/(4*a);
-                    else p = e/(4*a);
-                    board.create('point',[0,p],{name:'F',size:0.1});
-                }
-            }
+            }    
             break;
     }
 }
 
-// Construção do gráfico utilizando a biblioteca JSXGraph
-// Constrói o corpo do gráfico junt com os eixos X e Y
-
-var board = JXG.JSXGraph.initBoard('jxgbox1', {boundingbox: [-10, 10, 10, -10], axis:true});
-var board2 = JXG.JSXGraph.initBoard('jxgbox2', {boundingbox: [-10, 10, 10, -10], axis:true});
-var boards = [board,board2];
+// Inicializa o programa
+var boards = []
+const init = () => {
+    var board = JXG.JSXGraph.initBoard('jxgbox1', {boundingbox: [-10, 5, 10, -5], axis:true, grid:true});
+    var board2 = JXG.JSXGraph.initBoard('jxgbox2', {boundingbox: [-10, 5, 10, -5], axis:true, grid:true});
+    boards = [board,board2];
+    graph()
+}
