@@ -291,15 +291,6 @@ const findElements = (type, a, b, c, d, e, f) => {
             A excentricidade da hiperbole também é dada pela divisão 
                         e = c/a
         */ 
-//      |// let coordVA = Math.sqrt(Math.abs(f/a));
-//      |// let coordVB = Math.sqrt(Math.abs(f/c));
-//      |// let coordF = Math.sqrt(Math.pow(coordVA, 2) + Math.pow(coordVB, 2));
-//MONICI|// if (c * f > 0) v1 = coordVA;
-//      |// else v1 = coordVB;
-//      |// v2 = -v1;
-//      |// f1 = coordF;
-//      |// f2 = -f1;
-
         let resultado = (-f/a > 0) ? (-f/a):(f/c);
         resultado = Math.abs(resultado);
 
