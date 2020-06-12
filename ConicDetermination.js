@@ -20,6 +20,25 @@ Referências utilizadas para realizar as considerações matemáticas neste prog
     
 */
 
+// Função que simplifica uma raiz por fatoração
+const simplifySqrt = (f) => {
+    let factors = [];
+
+    for (let div = 2; f > 1; div++) {
+        if (f % div != 0) continue;
+        let qtd = 0;
+        while (f % div == 0) {
+            f /= div;
+            if (!qtd) factors.push(div);
+            qtd++;
+        }
+        factors.push(qtd);
+    }
+
+    return factors;
+}
+
+
 // Função que realiza a conversão de um valor float para uma fração para facilitar a visualização
 const decToFrac = (value, donly = true) => {
     let tolerance = 1.0E-5; 
@@ -39,13 +58,26 @@ const decToFrac = (value, donly = true) => {
     else if (value < 0) {
         negative = true;
         value = -value;
-        string += "-"
+        string += "- ";
     }
-    let square = value*value
-    if (Math.abs(Math.round(square) - square) < 0.01) {
-        if (!Math.round(square)) return "0"
-        string +=`\\sqrt{${Math.round(square)}}`
-        return string;
+    let square = value*value;
+    let squareR = Math.round(square);
+    if ((Math.abs(squareR - square) < 0.01)) {
+        let sqr = Math.sqrt(squareR);
+        if (parseInt(sqr) == sqr) return sqr.toString();
+        else { 
+            let factors = simplifySqrt(squareR);
+            let oout = 1;
+            let iiin = 1;
+            for (let i = 1; i < factors.length; i += 2) {
+                oout *= Math.pow(factors[i-1], parseInt(factors[i]/2));
+                iiin *= Math.pow(factors[i-1], factors[i]%2);
+            }
+            console.log(oout)
+            if (oout != 1) string +=`${oout}`;
+            string +=`\\sqrt{${iiin}}`;
+            return string;
+        }
     }
 
     if (donly) {
@@ -95,70 +127,70 @@ const determination = (a, b, c, d, e, f) => {
         | B/2   C |
         Determinante(M) = AC - B²/4   
     */
-    let Det = (a*c*f) - (((d**2)*c + (b**2)*f + (e**2)*a - b*e*d))/4
+    let Det = (a*c*f) - (((d**2)*c + (b**2)*f + (e**2)*a - b*e*d))/4;
  
     // Utilizando os valores que irão auxiliar na determinação
-    let t = a + c
-    let coft1 = c*f - ((e/2)**2)
-    let coft2 = a*f - ((d/2)**2)
-    let coft3 = a*c - ((b/2)**2)
+    let t = a + c;
+    let coft1 = c*f - ((e/2)**2);
+    let coft2 = a*f - ((d/2)**2);
+    let coft3 = a*c - ((b/2)**2);
 
     // Variável correspondente ao tipo
-    let type
+    let type;
 
     // CASO VAZIO
     if (((coft3 > 0) && (t * Det > 0)) || ((coft3 == 0) && (Det == 0) && (coft1 + coft2 > 0))) {
-        document.getElementById("Type").innerText = "Empty"
-        type = 0
+        document.getElementById("Type").innerText = "Empty";
+        type = 0;
     }
     // CASO DE UM PONTO
     else if ((coft3 > 0) && (Det == 0)) {
-        document.getElementById("Type").innerText = "Point"
-        type = 1
+        document.getElementById("Type").innerText = "Point";
+        type = 1;
     }
     // CASO DE UM PAR DE RETAS PARALELAS COINCIDENTES
     else if ((coft3 == 0) && (Det == 0) && (coft1 + coft2 == 0)) {
-        document.getElementById("Type").innerText = "Pair of identical lines" 
-        type = 2
+        document.getElementById("Type").innerText = "Pair of identical lines";
+        type = 2;
     }
     // CASO DE UM PAR DE RETAR PARALELAS DISTINTAS
     else if ((coft3 == 0) && (Det == 0) && (coft1 + coft2 < 0) && ((a != 0) || (b != 0) || (c != 0))) {
-        document.getElementById("Type").innerText = "Pair parallel lines"
-        type = 3
+        document.getElementById("Type").innerText = "Pair parallel lines";
+        type = 3;
     }
     // CASO DE UM PART DE RETAS CONCORRENTES
     else if ((coft3 < 0) && (Det == 0)) {
-        document.getElementById("Type").innerText = "Pair of intersecting lines" 
-        type = 4
+        document.getElementById("Type").innerText = "Pair of intersecting lines";
+        type = 4;
     }
     // CASO DE UMA RETA ÚNICA
     else if ((coft3 == 0) && (Det == 0) && (coft1 + coft2 < 0) && ((a == 0) && (b == 0) && (c == 0))) {
-        document.getElementById("Type").innerText = "Line"
-        type = 5
+        document.getElementById("Type").innerText = "Line";
+        type = 5;
     }
     // CASO DE UMA ELIPSE
     else if ((coft3 > 0) && (t * Det < 0) && (a != c)) {
-        document.getElementById("Type").innerText = "Ellipse" 
-        type = 6
+        document.getElementById("Type").innerText = "Ellipse";
+        type = 6;
     }
     // CASO DE UMA HIPERBOLE
     else if ((coft3 < 0) && (Det != 0)) {
-        document.getElementById("Type").innerText = "Hyperbola" 
-        type = 7
+        document.getElementById("Type").innerText = "Hyperbola";
+        type = 7;
     }
     // CASO DE UMA PARÁBOLA
     else if ((coft3 == 0) && (Det != 0)) {
-        document.getElementById("Type").innerText = "Parabola" 
-        type = 8
+        document.getElementById("Type").innerText = "Parabola";
+        type = 8;
     }    
     // CASO ESPECIAL DE ELÍPSE --> CIRCUNFERÊNCIA
     else if ((coft3 > 0) && (t * Det < 0) && (a == c)) {
-        document.getElementById("Type").innerText = "Circumference (Ellipse)" 
-        type = 9
+        document.getElementById("Type").innerText = "Circumference (Ellipse)";
+        type = 9;
     }    
 
     // Retornado o tipo de acordo com a tabela mostrada no comentario inicial.
-    return type
+    return type;
 }
 
 /*
@@ -172,16 +204,16 @@ const findElements = (type, a, b, c, d, e, f) => {
     // Sabemos que os pontos do vertice, foco e centro serão sempre posicionados
     // em um eixo, ou seja (X,0) ou (0,Y), devido os processos de rotação e translação.
 
-    let f1, f2       // Variáveis correspondentes aos focos F1 e F2
-    let exc          // Variável correspondente à excentricidade
-    let v1, v2       // Variáveis correspondentes aos vértices do maior eixo (considerando caso da elipse)
-    let b1,b2        // Variáveis correspondentes aos vértices do menor eixo (considernaod caso da elipse)
-    let string = ""  // Cadeia de caracteres que irá ser retornada para o HTML
-    let p            // Variável do parâmetro da parábola
-    let center       // Variável correspondente ao centro
-    let radiun       // Valor do raio da circunferência
+    let f1, f2;      // Variáveis correspondentes aos focos F1 e F2
+    let exc;         // Variável correspondente à excentricidade
+    let v1, v2;      // Variáveis correspondentes aos vértices do maior eixo (considerando caso da elipse)
+    let b1,b2;       // Variáveis correspondentes aos vértices do menor eixo (considernaod caso da elipse)
+    let string = ""; // Cadeia de caracteres que irá ser retornada para o HTML
+    let p;           // Variável do parâmetro da parábola
+    let center;      // Variável correspondente ao centro
+    let radiun;      // Valor do raio da circunferência
         
-    document.getElementById("ElTitle").innerText = "Elements"  
+    document.getElementById("ElTitle").innerText = "Elements";
     // Ellipse
     if (type == 6) {
         /* Devemos encontrar qual o maior eixo da elipse, identificado qual valor da equação do tipo
@@ -198,49 +230,49 @@ const findElements = (type, a, b, c, d, e, f) => {
             Por fim, a excentricidade corresponde ao valor da divisão 
                     e = c/a
         */ 
-        v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c)) 
-        v2 = -v1
-        if (a < c) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>, 0)`
-        else string += `First Vertice (A1): (0,<span id="v1"></span>) Second Vertice (A2): (0,<span id="v2"></span>)`
-        string += "<br>---------------------------------------------------------------------------------------------------<br>"
+        v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c)); 
+        v2 = -v1;
+        if (a < c) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>, 0)`;
+        else string += `First Vertice (A1): (0,<span id="v1"></span>) Second Vertice (A2): (0,<span id="v2"></span>)`;
+        string += "<br>---------------------------------------------------------------------------------------------------<br>";
 
-        b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a))
-        b2 = -b1
-        if (a < c) string += `Third Vertice  (B1): (0, <span id="b1"></span>) . <br>Fourth Vertice (B2): (0, <span id="b2"></span>)`
-        else string += `Third Vertice (B1): (<span id="b1"></span>, 0) . Fourth Vertice (B2): (<span id="b2"></span>, 0)`
-        string += "<br>---------------------------------------------------------------------------------------------------<br>"
+        b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a));
+        b2 = -b1;
+        if (a < c) string += `Third Vertice  (B1): (0, <span id="b1"></span>) . <br>Fourth Vertice (B2): (0, <span id="b2"></span>)`;
+        else string += `Third Vertice (B1): (<span id="b1"></span>, 0) . Fourth Vertice (B2): (<span id="b2"></span>, 0)`;
+        string += "<br>---------------------------------------------------------------------------------------------------<br>";
 
-        f1 = Math.sqrt((v1**2) - (b1**2))
-        f2 = -f1
-        if (a < c) string += `First Focus (F1): (<span id="f1"></span>, 0) . <br>Second Focus (F2): (<span id="f2"></span>, 0)`
-        else string += `First Focus (F1): (0,<span id="f1"></span>) . <br>Second Focus (F2): (0, <span id="f2"></span>)`
-        string += "<br>---------------------------------------------------------------------------------------------------<br>"
-        string += `Excentricite : <span id="excentricite"></span>`
+        f1 = Math.sqrt((v1**2) - (b1**2));
+        f2 = -f1;
+        if (a < c) string += `First Focus (F1): (<span id="f1"></span>, 0) . <br>Second Focus (F2): (<span id="f2"></span>, 0)`;
+        else string += `First Focus (F1): (0,<span id="f1"></span>) . <br>Second Focus (F2): (0, <span id="f2"></span>)`;
+        string += "<br>---------------------------------------------------------------------------------------------------<br>";
+        string += `Excentricite : <span id="excentricite"></span>`;
         exc = f1/v1;
         exc = decToFrac(exc, false);
         
         // Renderizando resultado
         document.getElementById("Elements").innerHTML = string;
         katex.render((decToFrac(v1, false)), document.getElementById("v1"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(v2, false)), document.getElementById("v2"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(b1, false)), document.getElementById("b1"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(b2, false)), document.getElementById("b2"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(f1, false)), document.getElementById("f1"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(f2, false)), document.getElementById("f2"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render(exc, document.getElementById("excentricite"), {
-            trowOnError: false
+            trowOnError: false;
         })
     }
     // Hyperbola
@@ -259,40 +291,49 @@ const findElements = (type, a, b, c, d, e, f) => {
             A excentricidade da hiperbole também é dada pela divisão 
                         e = c/a
         */ 
+//      |// let coordVA = Math.sqrt(Math.abs(f/a));
+//      |// let coordVB = Math.sqrt(Math.abs(f/c));
+//      |// let coordF = Math.sqrt(Math.pow(coordVA, 2) + Math.pow(coordVB, 2));
+//MONICI|// if (c * f > 0) v1 = coordVA;
+//      |// else v1 = coordVB;
+//      |// v2 = -v1;
+//      |// f1 = coordF;
+//      |// f2 = -f1;
+
         let resultado = (-f/a > 0) ? (-f/a):(f/c);
         resultado = Math.abs(resultado);
 
         v1 = Math.sqrt(resultado);
-        v2 = -v1   
-        if (a > 0) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>,0)`
-        else string += `First Vertice (A1): (0,<span id="v1"></span>) <br>Second Vertice (A2): (0,<span id="v2"></span>)`
-        string += "<br>---------------------------------------------------------------------------------------------------<br>"
+        v2 = -v1;
+        if (a > 0) string += `First Vertice (A1): (<span id="v1"></span>,0) <br>Second Vertice (A2): (<span id="v2"></span>,0)`;
+        else string += `First Vertice (A1): (0,<span id="v1"></span>) <br>Second Vertice (A2): (0,<span id="v2"></span>)`;
+        string += "<br>---------------------------------------------------------------------------------------------------<br>";
         
-        f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2)
-        f2 = -f1
-        if (a > 0) string += `First Focus (F1): (<span id="f1"></span>,0) <br>Second Focus (F2): (<span id="f2"></span>,0)`
-        else string += `First Focus (F1): (0<span id="f1"></span> <br>Second Focus (F2): (0,<span id="f2"></span>)`
-        string += "<br>---------------------------------------------------------------------------------------------------<br>"
-        string += `Excentricite : <span id="excentricite"></span>`
+        f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2);
+        f2 = -f1;
+        if (a > 0) string += `First Focus (F1): (<span id="f1"></span>,0) <br>Second Focus (F2): (<span id="f2"></span>,0)`;
+        else string += `First Focus (F1): (0,<span id="f1"></span>) <br>Second Focus (F2): (0,<span id="f2"></span>)`
+        string += "<br>---------------------------------------------------------------------------------------------------<br>";
+        string += `Excentricite : <span id="excentricite"></span>`;
         exc = f1/v1;
         exc = decToFrac(exc, false);
 
         // Renderizando Resultado
         document.getElementById("Elements").innerHTML = string;
         katex.render((decToFrac(v1, false)), document.getElementById("v1"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(v2, false)), document.getElementById("v2"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(f1, false)), document.getElementById("f1"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(f2, false)), document.getElementById("f2"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((exc), document.getElementById("excentricite"), {
-            trowOnError: false
+            trowOnError: false;
         })
     }
     // Parabola
@@ -312,21 +353,21 @@ const findElements = (type, a, b, c, d, e, f) => {
         if (!a) {
             if (c>0) p = -d/(4*c);
             else p = d/(4*c);
-            string = `P = <span id="p"></span>, and the focus is at F (<span id="p2"></span>,0)`             
+            string = `P = <span id="p"></span>, and the focus is at F (<span id="p2"></span>,0)`;
         }
         if (!c) {
             if (a>0) p = -e/(4*a);
             else p = e/(4*a);
-            string += `P = <span id="p"></span>, and the focus is at F (0,<span id="p2"></span>)` 
+            string += `P = <span id="p"></span>, and the focus is at F (0,<span id="p2"></span>)`; 
         }
 
         // Renderizando Resultado
-        document.getElementById("Elements").innerHTML = string
+        document.getElementById("Elements").innerHTML = string;
         katex.render((decToFrac(p, false)), document.getElementById("p"), {
-            trowOnError: false
+            trowOnError: false;
         })
         katex.render((decToFrac(p, false)), document.getElementById("p2"), {
-            trowOnError: false
+            trowOnError: false;
         })
     }
     // Circumference
@@ -343,12 +384,12 @@ const findElements = (type, a, b, c, d, e, f) => {
         if (a < 0) radius = Math.sqrt(f)
         else radius = Math.sqrt(-f)
         if (typeof(radius) == "number") radius = radius.toString();
-        string = `The radius of the circumference is <span id="radius"></span>`
+        string = `The radius of the circumference is <span id="radius"></span>`;
 
         // Renderizando Resultado
         document.getElementById("Elements").innerHTML = string
         katex.render((decToFrac(radius, false)), document.getElementById("radius"), {
-            trowOnError: false
+            trowOnError: false;
         })
     }
 }
@@ -358,20 +399,20 @@ const findElements = (type, a, b, c, d, e, f) => {
     Recebe o valor do coeficiente, a cadeia de caracteres que irá adicionar e qual string será manipulada
 */
 const auxPrintEquation = (coef, add, string) => {
-    let temp = "" // Valor correspondente ao valor do coeficiente temporário interno a função
+    let temp = ""; // Valor correspondente ao valor do coeficiente temporário interno a função
     /*
         Caso o coeficiente do termo seja positivo, iremos adicionar o símbolo '+' (exceto na primeira ocorrência),
         ou seja, a string já deve estar preenchida e não nula.
         Acrescenta apenas o elemento (X² por exemplo) caso o coeficiente seja 1 (para não acrescentar 1X², sendo desnecessário)
     */
     if (coef > 0) {
-        temp = decToFrac(coef, false)
+        temp = decToFrac(coef, false);
         if (temp != "0") {    
-            if (string) string += "+ "
-            if (temp != 1) string += `${temp}`
+            if (string) string += "+ ";
+            if (temp != 1) string += `${temp}`;
             else
-                if (add == " ") string += `${temp}`    
-            string += `${add}`    
+                if (add == " ") string += `${temp}`;    
+            string += `${add}`;    
         }
     }
     /*
@@ -380,15 +421,14 @@ const auxPrintEquation = (coef, add, string) => {
     */
     else if (coef < 0) {
         if (temp != "0") {
-            temp = decToFrac(-coef, false)
-            string += "- "
-            if (temp != 1) string += `${temp}`
-            else 
-                if (add == " ") string += `${temp}`    
-            string += `${add}`    
+            temp = decToFrac(-coef, false);
+            string += "- ";
+            if (temp != 1) string += `${temp}`;
+            else if (add == " ") string += `${temp}`;
+            string += `${add}`;
         }
     }
-    return string
+    return string;
 }
 
 /* Função requisitada para retornar uma string completa, em um formato 
@@ -397,42 +437,43 @@ const auxPrintEquation = (coef, add, string) => {
     e/ou rotações
 */
 const printEquation = (a, b, c, d, e, f, x, y) => {
-    let string = ""
+    let string = "";
 
-    string = auxPrintEquation(a, `${x}^2 `, string)
-    string = auxPrintEquation(b, `${x}${y}`, string)
-    string = auxPrintEquation(c, `${y}^2 `, string)
-    string = auxPrintEquation(d, `${x} `, string)
-    string = auxPrintEquation(e, `${y} `, string)
-    string = auxPrintEquation(f, " ", string)
+    string = auxPrintEquation(a, `${x}^2 `, string);
+    string = auxPrintEquation(b, `${x}${y}`, string);
+    string = auxPrintEquation(c, `${y}^2 `, string);
+    string = auxPrintEquation(d, `${x} `, string);
+    string = auxPrintEquation(e, `${y} `, string);
+    string = auxPrintEquation(f, " ", string);
 
-    if (string) string += " = 0 "
+    if (string) string += " = 0 ";
     else string = false;
     
-    return string
+    return string;
 }
 
 /*
     Função que simplifica os coefientes da equação pelo máximo divisor comum
 */
 const simplifyEquation = (a,b,c,d,e,f) => {
-    let coefs = [a, b, c, d, e, f]
+    let coefs = [a, b, c, d, e, f];
     for (let i = 0; i < 6; i++) {
-        if (parseInt(coefs[i]) != coefs[i]) return coefs
+        if (parseInt(coefs[i]) != coefs[i]) return coefs;
     }
 
-    coefs = coefs.map(coefieciente => (Math.abs(coefieciente)))
+    coefs = coefs.map(coefieciente => (Math.abs(coefieciente)));
     coefs = coefs.sort((a, b) => a - b);
 
-    let i = 0
-    while (!coefs[i]) i++
-    let num = coefs[i]
-    coefs = [a, b, c, d, e, f]
+    let i = 0;
+    while (!coefs[i]) i++;
+    let num = coefs[i];
+    coefs = [a, b, c, d, e, f];
     for (div = 2; num > 1; div++) {
-        if (num % div != 0) continue
+        if (num % div != 0) continue;
         while (num % div == 0) {
-            num /= div
-            if ((coefs[0] % div == 0) && (coefs[1] % div == 0) && (coefs[2] % div == 0) && (coefs[3] % div == 0) && (coefs[4] % div == 0) && (coefs[5] % div)== 0) {
+            num /= div;
+            if ((coefs[0] % div == 0) && (coefs[1] % div == 0) && (coefs[2] % div == 0) 
+                && (coefs[3] % div == 0) && (coefs[4] % div == 0) && (coefs[5] % div)== 0) {
                 for (let i = 0; i < 6; i++) coefs[i] /= div
             }             
         }
@@ -444,8 +485,8 @@ const simplifyEquation = (a,b,c,d,e,f) => {
 const graph = () => {
     // Mostrando todos os resultados, e zerando anteriores
     hiddenElements = document.getElementsByClassName("hidden");
-    hiddenElements[0].style.display = "block"
-    hiddenElements[1].style.display = "block"
+    hiddenElements[0].style.display = "block";
+    hiddenElements[1].style.display = "block";
     
     document.getElementById("Elements").innerHTML = "";
     document.getElementById("firstEquation").innerHTML = "";
@@ -454,94 +495,94 @@ const graph = () => {
     
     // Pegando do HTML todos os coeficientes da equação da cônica
     // Caso não seja passado um coeficiente, será atribuido 0 automaticamente à ele 
-    let a = parseFloat(document.getElementById("coefA").value) || 0
-    let b = parseFloat(document.getElementById("coefB").value) || 0
-    let c = parseFloat(document.getElementById("coefC").value) || 0
-    let d = parseFloat(document.getElementById("coefD").value) || 0
-    let e = parseFloat(document.getElementById("coefE").value) || 0
-    let f = parseFloat(document.getElementById("coefF").value) || 0
-    
+    let a = parseFloat(document.getElementById("coefA").value) || 0;
+    let b = parseFloat(document.getElementById("coefB").value) || 0;
+    let c = parseFloat(document.getElementById("coefC").value) || 0;
+    let d = parseFloat(document.getElementById("coefD").value) || 0;
+    let e = parseFloat(document.getElementById("coefE").value) || 0;
+    let f = parseFloat(document.getElementById("coefF").value) || 0;
     // Utilizando a função para retornar qual o tipo da cônica formada partir dos coeficientes submetidos
-    let type = determination(a,b,c,d,e,f)
-    plotgraph(a,b,c,d,e,f, type, 0, false)
+    let type = determination(a,b,c,d,e,f);
+    plotgraph(a,b,c,d,e,f, type, 0, false);
     
     //  Fazendo a primeira impressão da equação formada utilizando os coeficientes obtidos
-    let equation = printEquation(a,b,c,d,e,f,"x","y")
+    let equation = printEquation(a,b,c,d,e,f,"x","y");
 
     if (!equation) {
-        document.getElementById("equation").innerText = "Not an equation"
+        document.getElementById("equation").innerText = "Not an equation";
     } else {
         katex.render(equation, document.getElementById("equation", {
-            trowOnError: false
+            trowOnError: false;
         }))
     }
 
-    let a2 = a
-    let b2 = b
-    let c2 = c
-    let d2 = d
-    let e2 = e
-    let f2 = f
-    let h, k
+    let a2 = a;
+    let b2 = b;
+    let c2 = c;
+    let d2 = d;
+    let e2 = e;
+    let f2 = f;
+    let h, k;
     
-    const det = a*c - (b/2)**2
+    const det = a*c - (b/2)**2;
     
-    let flagFirstDet = det
-    
-    if(b2 != 0) {
-        let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b)
-        let teta1 = (Math.atan(tanteta1))*(180/Math.PI)
+    let flagFirstDet = det;
+    if((b2 != 0) && type) {
+        let tanteta1 = (2*a - 2*c + Math.sqrt((2*a - 2*c)**2 + 4*b**2))/(-2*b);
+        let teta1 = (Math.atan(tanteta1))*(180/Math.PI);
 
-        a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2 
-        b2 = 0
-        c2 = a + c - a2
+        a2 = (a + c + b*Math.sqrt(1+((a-c)/b)**2))/2;
+        b2 = 0;
+        c2 = a + c - a2;
         
         if (teta1 < 0) {
-            let temp = a2
-            a2 = c2
-            c2 = temp
-            teta1 += 90 
+            let temp = a2;
+            a2 = c2;
+            c2 = temp;
+            teta1 += 90;
         }
 
-        let cos1 = Math.sqrt(1/(tanteta1**2 + 1))
-        let sin1 = Math.sqrt(1 - (cos1)**2)
+        let cos1 = Math.sqrt(1/(tanteta1**2 + 1));
+        let sin1 = Math.sqrt(1 - (cos1)**2);
            
         if (flagFirstDet == 0) {
-            d2 = d*cos1 + e*sin1
-            e2 = (-d)*sin1 + e*cos1
+            d2 = d*cos1 + e*sin1;
+            e2 = (-d)*sin1 + e*cos1;
         }
 
-        let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2)
-        a2 = coefs[0]
-        b2 = coefs[1]
-        c2 = coefs[2]
-        d2 = coefs[3]
-        e2 = coefs[4]
-        f2 = coefs[5]
+        let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2);
+        a2 = coefs[0];
+        b2 = coefs[1];
+        c2 = coefs[2];
+        d2 = coefs[3];
+        e2 = coefs[4];
+        f2 = coefs[5];
 
-        let neweq2 = printEquation(a2,b2,c2,d2,e2,f2,"t","w")    
+        let neweq2 = printEquation(a2,b2,c2,d2,e2,f2,"t","w");
         if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
         katex.render(neweq2, document.getElementById("firstEquation", {
-            trowOnError: false
+            trowOnError: false;
         }))
 
-        document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)} °`
+        document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)} °`;
     }
-    else document.getElementById("answerTetas").innerText = "Rotation unnecessary"
+    else document.getElementById("answerTetas").innerText = "Rotation unnecessary";
     
-    if((d != 0) || (e != 0)) {
+    let translation = true;
+    if(((d != 0) || (e != 0)) && type) {
         if (flagFirstDet == 0) {
-            document.getElementById("answerHK").innerText = "It was not possible to make a translation of the coordenate system"
+            translation = false;
+            document.getElementById("answerHK").innerText = "It was not possible to make a translation of the coordenate system";
         }
         else{
-            h = ((-d/2) * c - (-e/2) * (b/2))/det
-            k = ((a) * (-e/2) - (b/2) * (-d/2))/det
-            d2 = 0
-            e2 = 0
-            f2 = ((d/2)*h + (e/2)*k + f)
+            h = ((-d/2) * c - (-e/2) * (b/2))/det;
+            k = ((a) * (-e/2) - (b/2) * (-d/2))/det;
+            d2 = 0;
+            e2 = 0;
+            f2 = ((d/2)*h + (e/2)*k + f);
             
-            let temp1 = decToFrac(h, false)
-            let temp2 = decToFrac(k, false)
+            let temp1 = decToFrac(h, false);
+            let temp2 = decToFrac(k, false);
             
             if (typeof(temp1) === "number") {temp1 = temp1.toString();}
             if (typeof(temp2) === "number") {temp2 = temp2.toString();}
@@ -550,35 +591,36 @@ const graph = () => {
                 The new coordenate system has 
                 (<span id="coordenada1"></span>, 
                 <span id="coordenada2"></span>)
-                as his origen coordernates at the old system ` 
+                as his origen coordernates at the old system `;
 
             katex.render(temp1, document.getElementById("coordenada1"), {
-                trowOnError: false
+                trowOnError: false;
             })
             katex.render(temp2, document.getElementById("coordenada2"), {
-                trowOnError: false
+                trowOnError: false;
             })
 
-            let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2)
-            a2 = coefs[0]
-            b2 = coefs[1]
-            c2 = coefs[2]
-            d2 = coefs[3]
-            e2 = coefs[4]
-            f2 = coefs[5]
+            let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2);
+            a2 = coefs[0];
+            b2 = coefs[1];
+            c2 = coefs[2];
+            d2 = coefs[3];
+            e2 = coefs[4];
+            f2 = coefs[5];
 
-            let neweq = printEquation(a2,b2,c2,d2,e2,f2,"u","v")
+            let neweq = printEquation(a2,b2,c2,d2,e2,f2,"u","v");
             if (typeof(neweq) === "number") {neweq = neweq.toString();}
             katex.render(neweq, document.getElementById("secondEquation", {
-                trowOnError: false
+                trowOnError: false;
             }))
         }
     }
-    else document.getElementById("answerHK").innerText = "Translation unnecessary"
+    else document.getElementById("answerHK").innerText = "Translation unnecessary";
     
-    if (type > 5) findElements(type, a2,b2,c2,d2,e2,f2)
 
-    plotgraph(a2, b2, c2, d2, e2, f2, type, 1, true);
+    if (type > 5) findElements(type,a2,b2,c2,d2,e2,f2);
+
+    plotgraph(a2, b2, c2, d2, e2, f2, type, 1, true, translation);
 
 }
 
@@ -591,10 +633,10 @@ const graph = () => {
 */
 const isDiffSquares = (a, b, c, d, e, f, type) => {
     if (!b && !d && !e) {
-        if (a * c < 0) return 1
-        else return 0
+        if (a * c < 0) return 1;
+        else return 0;
     }
-    else return 0
+    else return 0;
 }
 
 /*
@@ -608,18 +650,18 @@ const isPerfctSquare = (a, b, c, d, e, f, type) => {
     if (!d && !e && (f <= 0)) {
         if ((a > 0) && (c > 0)) {
             if (b < 0) {
-                if (b = -2 * Math.sqrt(a * c)) return 1
-                else return 0
+                if (b = -2 * Math.sqrt(a * c)) return 1;
+                else return 0;
             }
             else if (b > 0) {
-                if (b = 2 * Math.sqrt(a * c)) return 1
-                else return 0
+                if (b = 2 * Math.sqrt(a * c)) return 1;
+                else return 0;
             }
-            else return 0
+            else return 0;
         }
-        else return 0
+        else return 0;
     }
-    else return 0
+    else return 0;
 }
 
 /*  
@@ -627,13 +669,13 @@ const isPerfctSquare = (a, b, c, d, e, f, type) => {
     uma constante
 */
 const isBaseCase = (a, b, c, d, e, f, type) => {
-    if (!a && !b && !c && d && !e) return 1 //Caso x = k = -f/d
-    if (a && !b && !c && !d && !e) return 2 //Caso x² = 0
-    if (!a && !b && !c && !d && e) return 3 //Caso y = k = -f/e
-    if (!a && !b && c && !d && !e) return 4 //Caso y² = 0
+    if (!a && !b && !c && d && !e) return 1; //Caso x = k = -f/d
+    if (a && !b && !c && !d && !e) return 2; //Caso x² = 0
+    if (!a && !b && !c && !d && e) return 3; //Caso y = k = -f/e
+    if (!a && !b && c && !d && !e) return 4; //Caso y² = 0
 }
 
-const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
+const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints, translation) => {
     let board = boards[boardNumber];
     if (!boardNumber) {
         board.create('arrow',[[0,0],[0,1]],{strokeWidth:2,strokeColor:'purple'});
@@ -653,12 +695,12 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
             break;
 
         case 1: // Ponto
-            board.create('point', [0,0], {fixed:true})
+            board.create('point', [0,0], {fixed:true});
             break;
 
         case 2: // Par de retas paralelas idênticas
-            let isBase2 = isBaseCase(a, b, c, d, e, f)
-            let isPerfSqr2 = isPerfctSquare(a, b, c, d, e, f)
+            let isBase2 = isBaseCase(a, b, c, d, e, f);
+            let isPerfSqr2 = isPerfctSquare(a, b, c, d, e, f);
             if (isBase2) {
                 if (isBase2 == 1) { // x = -f/d
                     board.create('line',[[-(f/d),0],[-(f/d),1]]);
@@ -675,18 +717,18 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
             }
             else if (isPerfSqr2) {
                 if (b > 0) { //(ax + cy)² = -f
-                    y0NegativeSqrt = -((Math.sqrt(-f))/c)
-                    y0PositiveSqrt = ((Math.sqrt(-f))/c)
-                    y1NegativeSqrt = -(a + (Math.sqrt(-f)))/c
-                    y1PositiveSqrt = (Math.sqrt(-f) - a)/c
+                    y0NegativeSqrt = -((Math.sqrt(-f))/c);
+                    y0PositiveSqrt = ((Math.sqrt(-f))/c);
+                    y1NegativeSqrt = -(a + (Math.sqrt(-f)))/c;
+                    y1PositiveSqrt = (Math.sqrt(-f) - a)/c;
 
                     board.create('line',[[0,y0NegativeSqrt],[1,y1NegativeSqrt]]);
                 }
                 else { //(ax - cy)² = -f
-                    y0NegativeSqrt = -(Math.sqrt(-f)/c)
-                    y0PositiveSqrt = (Math.sqrt(-f)/c)
-                    y1NegativeSqrt = (a - Math.sqrt(-f))/c
-                    y1PositiveSqrt = (a + Math.sqrt(-f))/c
+                    y0NegativeSqrt = -(Math.sqrt(-f)/c);
+                    y0PositiveSqrt = (Math.sqrt(-f)/c);
+                    y1NegativeSqrt = (a - Math.sqrt(-f))/c;
+                    y1PositiveSqrt = (a + Math.sqrt(-f))/c;
 
                     board.create('line',[[0,y0NegativeSqrt],[1,y1NegativeSqrt]]);
                 }
@@ -694,19 +736,19 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
             break;
 
         case 3: // Caso de retas paralelas distintas
-            let isBase3 = isBaseCase(a, b, c, d, e, f)
-            let isPerfSqr3 = isPerfctSquare(a, b, c, d, e, f)
+            let isBase3 = isBaseCase(a, b, c, d, e, f);
+            let isPerfSqr3 = isPerfctSquare(a, b, c, d, e, f);
             if (isBase3) {
                 if (isBase3 == 2) { //x² = -f/a
-                    yNegativeSqrt = -(Math.sqrt(-f)/a)
-                    yPositiveSqrt = (Math.sqrt(-f)/a)
+                    yNegativeSqrt = -(Math.sqrt(-f)/a);
+                    yPositiveSqrt = (Math.sqrt(-f)/a);
                 
                     board.create('line',[[0,yNegativeSqrt],[1,yNegativeSqrt]]);
                     board.create('line',[[0,yPositiveSqrt],[1,yPositiveSqrt]]); 
                 }
                 else { //y² = -f/c
-                    xNegativeSqrt = -(Math.sqrt(-f)/c)
-                    xPositiveSqrt = (Math.sqrt(-f)/c)
+                    xNegativeSqrt = -(Math.sqrt(-f)/c);
+                    xPositiveSqrt = (Math.sqrt(-f)/c);
                 
                     board.create('line',[[0,xNegativeSqrt],[1,xNegativeSqrt]]);
                     board.create('line',[[0,xPositiveSqrt],[1,xPositiveSqrt]]); 
@@ -714,19 +756,19 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
             }
             else if (isPerfSqr3) {
                 if (b > 0) { //(ax + cy)² = -f
-                    y0NegativeSqrt = -(Math.sqrt(-f)/c)
-                    y0PositiveSqrt = (Math.sqrt(-f)/c)
-                    y1NegativeSqrt = -(a + Math.sqrt(-f))/c
-                    y1PositiveSqrt = (Math.sqrt(-f) - a)/c
+                    y0NegativeSqrt = -(Math.sqrt(-f)/c);
+                    y0PositiveSqrt = (Math.sqrt(-f)/c);
+                    y1NegativeSqrt = -(a + Math.sqrt(-f))/c;
+                    y1PositiveSqrt = (Math.sqrt(-f) - a)/c;
                 
                     board.create('line',[[0,y0NegativeSqrt],[1,y1NegativeSqrt]]);
                     board.create('line',[[0,y0PositiveSqrt],[1,y1PositiveSqrt]]); 
                 }
                 else { //(ax - cy)² = -f
-                    y0NegativeSqrt = -(Math.sqrt(-f)/c)
-                    y0PositiveSqrt = (Math.sqrt(-f)/c)
-                    y1NegativeSqrt = (a - Math.sqrt(-f))/c
-                    y1PositiveSqrt = (a + Math.sqrt(-f))/c
+                    y0NegativeSqrt = -(Math.sqrt(-f)/c);
+                    y0PositiveSqrt = (Math.sqrt(-f)/c);
+                    y1NegativeSqrt = (a - Math.sqrt(-f))/c;
+                    y1PositiveSqrt = (a + Math.sqrt(-f))/c;
 
                     board.create('line',[[0,y0NegativeSqrt],[1,y1NegativeSqrt]]);
                     board.create('line',[[0,y0PositiveSqrt],[1,y1PositiveSqrt]]); 
@@ -735,10 +777,10 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
             break;
 
         case 4: // Par de retas concorrentes
-            let isDiffSqrt = isDiffSquares(a,b,c,d,e,f)
+            let isDiffSqrt = isDiffSquares(a,b,c,d,e,f);
             if (isDiffSqrt) { // ax² - cy² = (√(a)x + √(c)y) * (√(a)x + √(c)y) = 0
-                y1SumCase = -Math.sqrt(Math.abs(a/c))
-                y1SubCase = Math.sqrt(Math.abs(a/c))
+                y1SumCase = -Math.sqrt(Math.abs(a/c));
+                y1SubCase = Math.sqrt(Math.abs(a/c));
 
                 board.create('line',[[0,0],[1,y1SumCase]]);
                 board.create('line',[[0,0],[1,y1SubCase]]); 
@@ -746,8 +788,8 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
             break;
 
         case 5: // Reta única
-            let y0 = f
-            let y1 = a + b + c + d + e + f
+            let y0 = f;
+            let y1 = a + b + c + d + e + f;
             board.create('line',[[0,y0],[1,y1]]);
             break;
 
@@ -757,9 +799,9 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
             board.create('conic', [a, c, f, b/2, d/2, e/2]);
             if (printPoints) {
                 // Elípse
-                if (type == 6) {
-                    v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c))
-                    v2 = -v1
+                if ((type == 6) && translation) {
+                    v1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/a) : (-f/c));
+                    v2 = -v1;
                     if (a < c) {
                         board.create('point',[v1,0],{name:'A1',size:0.1,fixed:true});
                         board.create('point',[v2,0],{name:'A2',size:0.1,fixed:true});
@@ -769,8 +811,8 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
                         board.create('point',[0,v2],{name:'A2',size:0.1,fixed:true});
                     }
 
-                    b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a))
-                    b2 = -b1
+                    b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a));
+                    b2 = -b1;
                     if (a < c) {
                         board.create('point',[0,b1],{name:'B1',size:0.1,fixed:true});
                         board.create('point',[0,b2],{name:'B2',size:0.1,fixed:true});
@@ -780,8 +822,8 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
                         board.create('point',[b2,0],{name:'B2',size:0.1,fixed:true});
                     }
 
-                    f1 = Math.sqrt((v1**2) - (b1**2))
-                    f2 = -f1
+                    f1 = Math.sqrt((v1**2) - (b1**2));
+                    f2 = -f1;
                     if (a < c) {
                         board.create('point',[f1,0],{name:'F1',size:0.1,fixed:true});
                         board.create('point',[f2,0],{name:'F2',size:0.1,fixed:true});
@@ -793,33 +835,37 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
                 }
                 // Hipérbole
                 else if (type == 7) {
-                    let resultado = (-f/a > 0) ? (-f/a):(f/c);
+                    let aHyp = 1/(Math.sqrt(Math.abs(a/-f)));
+                    let bHyp = 1/(Math.sqrt(Math.abs(c/f))); 
+                    let y1 = bHyp/aHyp;
+                    let y11 = -y1;
+                    board.create('line',[[0,0],[1,y1]],{strokeWidth:1});
+                    board.create('line',[[0,0],[1,y11]],{strokeWidth:1});
+
+                    let resultado = (a > 0) ? (-f/a):(f/c);
                     resultado = Math.abs(resultado);
-                    console.log(resultado);
                     v1 = Math.sqrt(resultado);
-                    v2 = -v1
-                    if (a < c) {
-                        board.create('point',[v1,0],{name:'A1',size:0.1,fixed:true});
-                        board.create('point',[v2,0],{name:'A2',size:0.1,fixed:true});
-                    }
-                    else {
-                        board.create('point',[0,v1],{name:'A1',size:0.1,fixed:true});
-                        board.create('point',[0,v2],{name:'A2',size:0.1,fixed:true});
-                    }   
-                    
-                    f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2)
-                    f2 = -f1
-                    if (a < c) {
-                        board.create('point',[f1,0],{name:'F1',size:0.1,fixed:true});
-                        board.create('point',[f2,0],{name:'F2',size:0.1,fixed:true});
-                    }
-                    else {
-                        board.create('point',[0,f1],{name:'F1',size:0.1,fixed:true});
-                        board.create('point',[0,f2],{name:'F2',size:0.1,fixed:true});
+                    v2 = -v1;
+                    f1 = Math.sqrt(v1**2 + ((a>0)?(-f/c):(-f/a))**2);
+                    f2 = -f1;
+
+                    if (translation) {
+                        if (a > 0) {
+                            board.create('point',[v1,0],{name:'A1',size:0.1,fixed:true});
+                            board.create('point',[v2,0],{name:'A2',size:0.1,fixed:true});
+                            board.create('point',[f1,0],{name:'F1',size:0.1,fixed:true});
+                            board.create('point',[f2,0],{name:'F2',size:0.1,fixed:true});
+                        }
+                        else {
+                            board.create('point',[0,v1],{name:'A1',size:0.1,fixed:true});
+                            board.create('point',[0,v2],{name:'A2',size:0.1,fixed:true});
+                            board.create('point',[0,f1],{name:'F1',size:0.1,fixed:true});
+                            board.create('point',[0,f2],{name:'F2',size:0.1,fixed:true});
+                        }
                     }
                 }
                 // Parabola
-                else if (type == 8) {
+                else if ((type == 8) && translation) {
                     if (!a) {
                         if (c>0) p = -d/(4*c);
                         else p = d/(4*c);
@@ -833,10 +879,7 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
                 }
                 // Cincunferência
                 else if (type == 9) {
-                    let y2 = 
                     board.create('point',[0,0],{name:'Center',size:0.1,fixed:true});
-
-                    board.create('segment',[0,0],{name:'Center',size:0.1});
                 }
             }    
             break;
@@ -844,10 +887,11 @@ const plotgraph = (a, b, c, d, e, f, type, boardNumber, printPoints) => {
 }
 
 // Inicializa o programa
-var boards = []
+var boards = [];
 const init = () => {
-    var board = JXG.JSXGraph.initBoard('jxgbox1', {boundingbox: [-10, 5, 10, -5], axis:true, grid:true});
-    var board2 = JXG.JSXGraph.initBoard('jxgbox2', {boundingbox: [-10, 5, 10, -5], axis:true, grid:true});
+    var board = JXG.JSXGraph.initBoard('jxgbox1', {boundingbox: [-36, 18, 36, -18], axis:true, grid:true});
+    var board2 = JXG.JSXGraph.initBoard('jxgbox2', {boundingbox: [-36, 18, 36, -18], axis:true, grid:true});
+
     boards = [board,board2];
-    graph()
+    graph();
 } 
