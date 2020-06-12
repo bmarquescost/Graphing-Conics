@@ -22,11 +22,11 @@ body {
 
 .footer {
   margin-top: auto;
-  height: 80px;
   width: 100vw;
   background-color: #001f3f;
   color: #ffffff;
   box-sizing: border-box;
+  padding-bottom: 20px;
 }
 
 .footer p {
@@ -137,5 +137,6 @@ input[type=number] {
     padding: auto;
     width: 100vw;
     box-sizing: border-box;
+    border-radius: 0;
   }
 } 
