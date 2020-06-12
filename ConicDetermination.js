@@ -238,14 +238,14 @@ const findElements = (type, a, b, c, d, e, f) => {
 
         b1 = Math.sqrt(((-f/a) > (-f/c)) ? (-f/c) : (-f/a));
         b2 = -b1;
-        if (a < c) string += `Third Vertice  (B1): (0, <span id="b1"></span>) . <br>Fourth Vertice (B2): (0, <span id="b2"></span>)`;
-        else string += `Third Vertice (B1): (<span id="b1"></span>, 0) . Fourth Vertice (B2): (<span id="b2"></span>, 0)`;
+        if (a < c) string += `Third Vertice  (B1): (0, <span id="b1"></span>) <br>Fourth Vertice (B2): (0, <span id="b2"></span>)`;
+        else string += `Third Vertice (B1): (<span id="b1"></span>, 0) Fourth Vertice (B2): (<span id="b2"></span>, 0)`;
         string += "<br>---------------------------------------------------------------------------------------------------<br>";
 
         f1 = Math.sqrt((v1**2) - (b1**2));
         f2 = -f1;
-        if (a < c) string += `First Focus (F1): (<span id="f1"></span>, 0) . <br>Second Focus (F2): (<span id="f2"></span>, 0)`;
-        else string += `First Focus (F1): (0,<span id="f1"></span>) . <br>Second Focus (F2): (0, <span id="f2"></span>)`;
+        if (a < c) string += `First Focus (F1): (<span id="f1"></span>, 0) <br>Second Focus (F2): (<span id="f2"></span>, 0)`;
+        else string += `First Focus (F1): (0,<span id="f1"></span>) <br>Second Focus (F2): (0, <span id="f2"></span>)`;
         string += "<br>---------------------------------------------------------------------------------------------------<br>";
         string += `Excentricite : <span id="excentricite"></span>`;
         exc = f1/v1;
@@ -254,25 +254,25 @@ const findElements = (type, a, b, c, d, e, f) => {
         // Renderizando resultado
         document.getElementById("Elements").innerHTML = string;
         katex.render((decToFrac(v1, false)), document.getElementById("v1"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(v2, false)), document.getElementById("v2"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(b1, false)), document.getElementById("b1"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(b2, false)), document.getElementById("b2"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(f1, false)), document.getElementById("f1"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(f2, false)), document.getElementById("f2"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render(exc, document.getElementById("excentricite"), {
-            trowOnError: false;
+            trowOnError: false
         })
     }
     // Hyperbola
@@ -321,19 +321,19 @@ const findElements = (type, a, b, c, d, e, f) => {
         // Renderizando Resultado
         document.getElementById("Elements").innerHTML = string;
         katex.render((decToFrac(v1, false)), document.getElementById("v1"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(v2, false)), document.getElementById("v2"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(f1, false)), document.getElementById("f1"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(f2, false)), document.getElementById("f2"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((exc), document.getElementById("excentricite"), {
-            trowOnError: false;
+            trowOnError: false
         })
     }
     // Parabola
@@ -364,10 +364,10 @@ const findElements = (type, a, b, c, d, e, f) => {
         // Renderizando Resultado
         document.getElementById("Elements").innerHTML = string;
         katex.render((decToFrac(p, false)), document.getElementById("p"), {
-            trowOnError: false;
+            trowOnError: false
         })
         katex.render((decToFrac(p, false)), document.getElementById("p2"), {
-            trowOnError: false;
+            trowOnError: false
         })
     }
     // Circumference
@@ -389,7 +389,7 @@ const findElements = (type, a, b, c, d, e, f) => {
         // Renderizando Resultado
         document.getElementById("Elements").innerHTML = string
         katex.render((decToFrac(radius, false)), document.getElementById("radius"), {
-            trowOnError: false;
+            trowOnError: false
         })
     }
 }
@@ -512,7 +512,7 @@ const graph = () => {
         document.getElementById("equation").innerText = "Not an equation";
     } else {
         katex.render(equation, document.getElementById("equation", {
-            trowOnError: false;
+            trowOnError: false
         }))
     }
 
@@ -561,7 +561,7 @@ const graph = () => {
         let neweq2 = printEquation(a2,b2,c2,d2,e2,f2,"t","w");
         if (typeof(neweq2) === "number") {neweq2 = neweq2.toString();}
         katex.render(neweq2, document.getElementById("firstEquation", {
-            trowOnError: false;
+            trowOnError: false
         }))
 
         document.getElementById("answerTetas").innerText =  `We have for rotation: First angle ${teta1.toFixed(2)} °`;
@@ -594,10 +594,10 @@ const graph = () => {
                 as his origen coordernates at the old system `;
 
             katex.render(temp1, document.getElementById("coordenada1"), {
-                trowOnError: false;
+                trowOnError: false
             })
             katex.render(temp2, document.getElementById("coordenada2"), {
-                trowOnError: false;
+                trowOnError: false
             })
 
             let coefs = simplifyEquation(a2,b2,c2,d2,e2,f2);
@@ -611,7 +611,7 @@ const graph = () => {
             let neweq = printEquation(a2,b2,c2,d2,e2,f2,"u","v");
             if (typeof(neweq) === "number") {neweq = neweq.toString();}
             katex.render(neweq, document.getElementById("secondEquation", {
-                trowOnError: false;
+                trowOnError: false
             }))
         }
     }
